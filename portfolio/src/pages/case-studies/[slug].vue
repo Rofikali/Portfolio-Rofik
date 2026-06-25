@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const route = useRoute()
 
-const article = await queryCollection('case-studies')
+const article = await queryCollection('caseStudies')
     .where('slug', '=', route.params.slug)
     .first()
 
