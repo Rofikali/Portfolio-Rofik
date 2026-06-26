@@ -19,6 +19,10 @@ technologies:
   - FastAPI
   - PostgreSQL
   - Redis
+  - Kafka
+  - Docker
+  - Prometheus
+  - Grafana
   - Nuxt
 
 highlights:

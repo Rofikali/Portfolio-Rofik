@@ -1,3 +1,13 @@
+// export interface Skill {
+//     name: string
+
+//     category:
+//     | 'Backend'
+//     | 'Frontend'
+//     | 'Database'
+//     | 'DevOps'
+//     | 'Systems'
+// }
 export interface Skill {
     name: string
 
@@ -5,6 +15,8 @@ export interface Skill {
     | 'Backend'
     | 'Frontend'
     | 'Database'
+    | 'Infrastructure'
     | 'DevOps'
+    | 'Observability'
     | 'Systems'
 }

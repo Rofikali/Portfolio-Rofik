@@ -57,26 +57,62 @@ TikTok Clone
 # Blog Categories
 
 Backend
+-------
 
 FastAPI
-
 Django
-
+Django REST Framework
 PostgreSQL
-
 Redis
+Kafka
+
+Frontend
+--------
 
 Nuxt
-
 Vue
-
 TypeScript
 
+Infrastructure
+--------------
+
+Docker
+GitHub Actions
+
+Observability
+-------------
+
+Prometheus
+Grafana
+
+Systems
+-------
+
 Linux
+C
+AVX2
 
-C Programming
+<!-- Backend -->
+<!--  -->
+<!-- FastAPI -->
 
-System Design
+<!-- Django -->
+
+<!-- PostgreSQL -->
+
+<!-- Redis -->
+
+<!-- Nuxt -->
+
+<!-- Vue -->
+
+<!-- TypeScript -->
+
+<!-- Linux -->
+
+<!-- C Programming -->
+
+<!-- System Design -->
 
 ---
 

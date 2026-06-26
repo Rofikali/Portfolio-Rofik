@@ -32,5 +32,7 @@ const projects = await getFeaturedProjects()
 
     <SkillsSection :skills="skills" />
 
+    <ContactSection />
+
     <FeaturedProjectsSection :projects="projects" />
 </template>

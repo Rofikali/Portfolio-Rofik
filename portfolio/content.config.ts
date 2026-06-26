@@ -17,9 +17,17 @@ const projectSchema = z.object({
 })
 
 const caseStudySchema = z.object({
+  id: z.string(),
   slug: z.string(),
-  project: z.string(),
-  title: z.string()
+  title: z.string(),
+  summary: z.string(),
+  project: z.string().optional(),
+  projectSlug: z.string(),
+  difficulty: z.enum(['Intermediate', 'Advanced']),
+  estimatedReadTime: z.number().int().positive(),
+  technologies: z.array(z.string()).default([]),
+  publishedAt: z.date(),
+  updatedAt: z.date()
 })
 
 const articleSchema = z.object({

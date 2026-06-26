@@ -1,7 +1,19 @@
 ---
+id: imgengine-case-study
 title: IMGENGINE CLI
 slug: imgengine
 project: IMGENGINE CLI
+projectSlug: imgengine
+summary: A systems-focused case study on building a high-performance image processing CLI in C with attention to memory, SIMD, and Linux workflows.
+difficulty: Advanced
+estimatedReadTime: 8
+technologies:
+  - C
+  - Linux
+  - AVX2
+  - SIMD
+publishedAt: 2026-06-24
+updatedAt: 2026-06-26
 ---
 
 # Executive Summary

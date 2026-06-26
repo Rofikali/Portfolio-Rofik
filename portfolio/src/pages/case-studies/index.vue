@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const caseStudies = await queryCollection('caseStudies').all()
+const caseStudies = await getCaseStudies()
 
 useSeoMeta({
   title: 'Case Studies | Rofik',
@@ -14,21 +14,12 @@ useSeoMeta({
         Case Studies
       </h1>
 
-      <div class="mt-12 grid gap-6 md:grid-cols-2">
-        <NuxtLink
+      <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <CaseStudyCard
           v-for="study in caseStudies"
           :key="study.id"
-          :to="`/case-studies/${study.slug}`"
-          class="rounded-lg border border-slate-800 bg-slate-900 p-6 transition hover:border-blue-500"
-        >
-          <h2 class="text-xl font-semibold text-white">
-            {{ study.title }}
-          </h2>
-
-          <p class="mt-3 text-slate-400">
-            {{ study.project || 'Engineering case study' }}
-          </p>
-        </NuxtLink>
+          :case-study="study"
+        />
       </div>
     </BaseSection>
   </BaseContainer>

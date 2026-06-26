@@ -19,6 +19,8 @@ technologies:
   - Django
   - DRF
   - PostgreSQL
+  - Redis
+  - Docker
   - Nuxt
 
 highlights:

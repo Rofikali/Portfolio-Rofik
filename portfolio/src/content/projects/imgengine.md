@@ -13,12 +13,13 @@ description: Image processing engine written in C focused on performance and mem
 
 image: /images/projects/imgengine.webp
 
-githubUrl: https://github.com/your-github/imgengine
+githubUrl: https://github.com/Rofikali/imgengine
 
 technologies:
   - C
   - Linux
   - AVX2
+  - SIMD
 
 highlights:
   - SIMD optimization
