@@ -1,75 +1,22 @@
-# Nuxt Minimal Starter
+# Portfolio App
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Nuxt static site for Rofik's engineering portfolio.
 
-## Setup
-
-Make sure to install dependencies:
+## Commands
 
 ```bash
-# npm
-npm install
-
-# pnpm
 pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
 pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+pnpm test
+pnpm generate
 ```
 
-## Production
+## Deploy Target
 
-Build the application for production:
+`pnpm generate` emits the static site to `.output/public`.
+
+For GitHub Pages under `Rofikali/Portfolio-Rofik`, build with:
 
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+NUXT_APP_BASE_URL=/Portfolio-Rofik/ pnpm generate
 ```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

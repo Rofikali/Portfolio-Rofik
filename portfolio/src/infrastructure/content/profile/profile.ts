@@ -11,9 +11,9 @@ export const profile: Profile = {
     description:
         'Specializing in FastAPI, Django, PostgreSQL, Redis, Nuxt, Vue, TypeScript, Linux, and C. I focus on backend architecture, API design, performance optimization, and building reliable software systems.',
 
-    githubUrl: 'https://github.com/your-github',
+    githubUrl: 'https://github.com/Rofikali',
 
-    linkedinUrl: 'https://linkedin.com/in/your-linkedin',
+    linkedinUrl: 'https://www.linkedin.com/in/rofikali',
 
     resumeUrl: '/resume.pdf',
 
