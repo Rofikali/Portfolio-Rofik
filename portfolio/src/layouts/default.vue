@@ -1,8 +1,8 @@
 <template>
-    <div class="min-h-screen bg-black text-white">
+    <div class="min-h-screen text-slate-100">
         <AppNavbar />
 
-        <main>
+        <main class="relative">
             <slot />
         </main>
 

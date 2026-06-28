@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const articles = await queryCollection('architecture').all()
+const articleList = articles.filter((article) => article.slug && article.title)
 
 useSeoMeta({
   title: 'Architecture | Rofik',
@@ -10,24 +11,34 @@ useSeoMeta({
 <template>
   <BaseContainer>
     <BaseSection>
-      <h1 class="text-5xl font-bold text-white">
-        Architecture
-      </h1>
+      <div class="mb-10 max-w-2xl">
+        <h1 class="text-4xl font-bold text-white">
+          Architecture
+        </h1>
 
-      <div class="mt-12 grid gap-6 md:grid-cols-2">
+        <p class="mt-4 text-sm leading-6 text-slate-400">
+          Technical articles and deep dives into system design, architecture, and engineering decisions.
+        </p>
+      </div>
+
+      <div class="grid gap-4">
         <NuxtLink
-          v-for="article in articles"
+          v-for="article in articleList"
           :key="article.id"
           :to="`/architecture/${article.slug}`"
-          class="rounded-lg border border-slate-800 bg-slate-900 p-6 transition hover:border-blue-500"
+          class="surface flex items-center justify-between rounded-lg p-5 transition hover:border-blue-500/80"
         >
-          <h2 class="text-xl font-semibold text-white">
-            {{ article.title }}
-          </h2>
+          <div>
+            <h2 class="text-lg font-semibold text-white">
+              {{ article.title }}
+            </h2>
 
-          <p class="mt-3 text-slate-400">
-            {{ article.category || 'System design' }}
-          </p>
+            <p class="mt-2 text-sm text-slate-400">
+              {{ article.category || 'System design' }}
+            </p>
+          </div>
+
+          <span class="text-slate-500" aria-hidden="true">&rsaquo;</span>
         </NuxtLink>
       </div>
     </BaseSection>

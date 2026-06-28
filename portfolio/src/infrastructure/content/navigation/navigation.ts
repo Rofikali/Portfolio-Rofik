@@ -19,5 +19,10 @@ export const navigation: NavItem[] = [
     {
         label: 'Blog',
         to: '/blog'
+    },
+
+    {
+        label: 'Contact',
+        to: '/contact'
     }
 ]

@@ -7,7 +7,7 @@ defineProps<Props>()
 </script>
 
 <template>
-    <span class="rounded-full border border-slate-700 px-4 py-2 text-sm text-slate-300">
+    <span class="rounded-md border border-slate-700/90 bg-slate-950/50 px-3 py-1.5 text-xs text-slate-300">
         {{ label }}
     </span>
 </template>

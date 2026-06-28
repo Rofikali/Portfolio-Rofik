@@ -1,29 +1,13 @@
-<!-- <template>
-    <footer class="border-t border-slate-800 py-10">
-        <BaseContainer>
-            <div class="flex flex-col gap-4 md:flex-row md:justify-between">
-                <p class="text-slate-400">
-                    © 2026 Rofik
-                </p>
-
-                <p class="text-slate-500">
-                    FastAPI · Django · Nuxt · PostgreSQL · Linux · C
-                </p>
-            </div>
-        </BaseContainer>
-    </footer>
-</template> -->
-
 <template>
-    <footer class="border-t border-slate-800 py-10">
+    <footer class="border-t border-slate-800/80 py-8">
         <BaseContainer>
-            <div class="flex flex-col gap-4 md:flex-row md:justify-between">
-                <p class="text-slate-400">
+            <div class="flex flex-col gap-3 text-sm text-slate-500 md:flex-row md:items-center md:justify-between">
+                <p>
                     © 2026 Rofik
                 </p>
 
-                <p class="text-slate-500">
-                    FastAPI · Django · Nuxt · PostgreSQL · Redis · Linux · C
+                <p>
+                    Dark theme · Responsive · Clean Architecture · Content-driven · SEO friendly
                 </p>
             </div>
         </BaseContainer>

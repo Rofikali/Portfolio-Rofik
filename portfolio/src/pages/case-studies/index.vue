@@ -10,11 +10,17 @@ useSeoMeta({
 <template>
   <BaseContainer>
     <BaseSection>
-      <h1 class="text-5xl font-bold text-white">
-        Case Studies
-      </h1>
+      <div class="mb-10 max-w-2xl">
+        <h1 class="text-4xl font-bold text-white">
+          Case Studies
+        </h1>
 
-      <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <p class="mt-4 text-sm leading-6 text-slate-400">
+          In-depth engineering case studies that explore architecture, decisions, and lessons learned.
+        </p>
+      </div>
+
+      <div class="grid gap-5">
         <CaseStudyCard
           v-for="study in caseStudies"
           :key="study.id"

@@ -9,18 +9,25 @@ defineProps<Props>()
 </script>
 
 <template>
-    <section id="projects" class="py-24">
+    <section id="projects" class="py-16">
         <BaseContainer>
-            <h2 class="text-3xl font-bold text-white">
-                Featured Projects
-            </h2>
+            <div class="mb-10 flex items-end justify-between gap-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">
+                        Featured Projects
+                    </h2>
 
-            <p class="mt-4 text-slate-400">
-                Production-grade projects demonstrating backend,
-                frontend and systems engineering.
-            </p>
+                    <p class="mt-3 text-sm text-slate-400">
+                        Production-grade projects demonstrating backend, frontend, and systems engineering.
+                    </p>
+                </div>
 
-            <div class="mt-12 grid gap-8 lg:grid-cols-3">
+                <NuxtLink to="/projects" class="hidden text-sm font-medium text-blue-400 hover:text-blue-300 sm:block">
+                    View all projects ->
+                </NuxtLink>
+            </div>
+
+            <div class="grid gap-5 md:grid-cols-3">
                 <ProjectCard v-for="project in projects" :key="project.id" :project="project" />
             </div>
         </BaseContainer>

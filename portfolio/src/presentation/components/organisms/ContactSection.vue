@@ -3,42 +3,44 @@ import { contactLinks } from '@/infrastructure/content/contact/contactLinks'
 </script>
 
 <template>
-    <section id="contact" class="py-24">
+    <section id="contact" class="py-16">
         <BaseContainer>
+            <div class="surface rounded-lg p-8 sm:p-10">
+                <div class="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+                    <div>
+                        <p class="text-sm font-semibold text-blue-400">
+                            Contact
+                        </p>
 
-            <div class="max-w-3xl">
+                        <h2 class="mt-4 text-4xl font-bold text-white">
+                            Let's Build Something Great
+                        </h2>
 
-                <span class="text-blue-400 uppercase tracking-wider">
-                    Contact
-                </span>
+                        <p class="mt-5 max-w-xl leading-7 text-slate-400">
+                            I'm open to backend, platform, full-stack, and performance-focused engineering challenges.
+                        </p>
+                    </div>
 
-                <h2 class="mt-4 text-4xl font-bold">
-                    Let's Build Something Great
-                </h2>
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <a
+                            v-for="link in contactLinks"
+                            :key="link.label"
+                            :href="link.url"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="muted-panel rounded-lg p-5 transition hover:border-blue-500/80"
+                        >
+                            <h3 class="font-semibold text-white">
+                                {{ link.label }}
+                            </h3>
 
-                <p class="mt-6 text-slate-400">
-                    Interested in backend engineering,
-                    platform engineering,
-                    FastAPI development,
-                    Django applications,
-                    or performance-focused systems?
-                </p>
-
+                            <p class="mt-2 text-sm text-slate-400">
+                                {{ link.description }}
+                            </p>
+                        </a>
+                    </div>
+                </div>
             </div>
-
-            <div class="mt-12 grid gap-6 md:grid-cols-3">
-                <a v-for="link in contactLinks" :key="link.label" :href="link.url" target="_blank"
-                    class="rounded-xl border border-slate-800 bg-slate-900 p-6 transition hover:border-blue-500">
-                    <h3 class="font-semibold">
-                        {{ link.label }}
-                    </h3>
-
-                    <p class="mt-2 text-sm text-slate-400">
-                        {{ link.description }}
-                    </p>
-                </a>
-            </div>
-
         </BaseContainer>
     </section>
 </template>

@@ -11,32 +11,38 @@ defineProps<Props>()
 <template>
     <NuxtLink
         :to="`/case-studies/${caseStudy.slug}`"
-        class="block rounded-lg border border-slate-800 bg-slate-900 p-6 transition hover:border-blue-500"
+        class="surface grid gap-6 rounded-lg p-6 transition hover:border-blue-500/80 md:grid-cols-[1fr_auto]"
     >
-        <div class="flex items-center justify-between gap-4">
-            <span class="text-sm font-medium text-blue-400">
-                {{ caseStudy.difficulty }}
-            </span>
+        <div>
+            <div class="flex flex-wrap items-center gap-3">
+                <span class="rounded-md border border-blue-500/30 bg-blue-500/10 px-2.5 py-1 text-xs text-blue-300">
+                    {{ caseStudy.difficulty }}
+                </span>
 
-            <span class="text-sm text-slate-500">
-                {{ caseStudy.estimatedReadTime }} min
-            </span>
-        </div>
+                <span class="text-xs text-slate-500">
+                    {{ caseStudy.estimatedReadTime }} min read
+                </span>
+            </div>
 
-        <h2 class="mt-5 text-xl font-semibold text-white">
-            {{ caseStudy.title }}
-        </h2>
+            <h2 class="mt-4 text-xl font-semibold text-white">
+                {{ caseStudy.title }}
+            </h2>
 
-        <p class="mt-3 text-slate-400">
-            {{ caseStudy.summary }}
-        </p>
+            <p class="mt-3 text-sm leading-6 text-slate-400">
+                {{ caseStudy.summary }}
+            </p>
 
-        <div class="mt-5 flex flex-wrap gap-2">
-            <BaseTag
-                v-for="tech in caseStudy.technologies.slice(0, 4)"
-                :key="tech"
-                :label="tech"
-            />
+            <div class="mt-5 flex flex-wrap gap-2">
+                <BaseTag
+                    v-for="tech in caseStudy.technologies.slice(0, 5)"
+                    :key="tech"
+                    :label="tech"
+                />
+            </div>
+
+            <p class="mt-6 text-sm font-medium text-blue-400">
+                Read Case Study ->
+            </p>
         </div>
     </NuxtLink>
 </template>

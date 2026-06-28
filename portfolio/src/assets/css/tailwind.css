@@ -1,3 +1,65 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background: #030712;
+  }
+
+  body {
+    background:
+      radial-gradient(circle at 20% 0%, rgba(37, 99, 235, 0.12), transparent 28rem),
+      radial-gradient(circle at 80% 10%, rgba(20, 184, 166, 0.08), transparent 26rem),
+      #030712;
+    color: #e5e7eb;
+  }
+
+  ::selection {
+    background: rgba(37, 99, 235, 0.45);
+    color: #ffffff;
+  }
+}
+
+@layer components {
+  .surface {
+    border: 1px solid rgba(51, 65, 85, 0.9);
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.92));
+    box-shadow: 0 18px 70px rgba(0, 0, 0, 0.28);
+  }
+
+  .muted-panel {
+    border: 1px solid rgba(30, 41, 59, 0.9);
+    background: rgba(15, 23, 42, 0.62);
+  }
+
+  .prose {
+    color: #cbd5e1;
+  }
+
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4 {
+    color: #f8fafc;
+    letter-spacing: 0;
+  }
+
+  .prose a {
+    color: #60a5fa;
+    text-decoration: none;
+  }
+
+  .prose a:hover {
+    color: #93c5fd;
+  }
+
+  .prose hr {
+    border-color: rgba(51, 65, 85, 0.7);
+  }
+
+  .prose code {
+    color: #93c5fd;
+  }
+}
