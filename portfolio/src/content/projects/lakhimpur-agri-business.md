@@ -13,9 +13,11 @@ description: Business platform for inventory, analytics, and farmer management.
 
 image: /images/projects/lakhimpur.webp
 
-githubUrl: https://github.com/Rofikali/lakhimpur-agri-business
+# githubUrl: https://github.com/Rofikali/lakhimpur-agri-business
+githubUrl: https://github.com/Rofikali/Lakhimpur-Agri-Business-Platform
 
-demoUrl: https://github.com/Rofikali/lakhimpur-agri-business#readme
+# demoUrl: https://github.com/Rofikali/lakhimpur-agri-business#readme
+demoUrl: https://github.com/Rofikali/Lakhimpur-Agri-Business-Platform
 
 technologies:
   - FastAPI

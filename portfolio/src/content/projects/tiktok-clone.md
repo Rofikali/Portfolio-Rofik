@@ -13,9 +13,11 @@ description: Social media application supporting video feeds, comments and likes
 
 image: /images/projects/tiktok.webp
 
-githubUrl: https://github.com/Rofikali/tiktok-clone
+# githubUrl: https://github.com/Rofikali/tiktok-clone
+githubUrl: https://github.com/Rofikali/TikTokClone
 
-demoUrl: https://github.com/Rofikali/tiktok-clone#readme
+# demoUrl: https://github.com/Rofikali/tiktok-clone#readme
+demoUrl: https://github.com/Rofikali/TikTokClone
 
 technologies:
   - Django

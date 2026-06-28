@@ -13,9 +13,11 @@ description: Image processing engine written in C focused on performance and mem
 
 image: /images/projects/imgengine.webp
 
+# githubUrl: https://github.com/Rofikali/imgengine
 githubUrl: https://github.com/Rofikali/imgengine
 
-demoUrl: https://github.com/Rofikali/imgengine#readme
+# demoUrl: https://github.com/Rofikali/imgengine#readme
+demoUrl: https://github.com/Rofikali/imgengine
 
 technologies:
   - C
