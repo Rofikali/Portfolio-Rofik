@@ -56,7 +56,7 @@ defineProps<Props>()
 
 > Backend Engineer
 > System Design Enthusiast
-> Clean Architecture Advocate
+> Clean Architecture
 > Open Source Contributor</code></pre>
         </div>
       </div>
