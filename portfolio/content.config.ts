@@ -37,6 +37,25 @@ const articleSchema = z.object({
   publishedAt: z.date().optional()
 })
 
+const documentationSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  slug: z.string(),
+  summary: z.string(),
+  category: z.string(),
+  subcategory: z.string(),
+  difficulty: z.enum(['Beginner', 'Intermediate', 'Advanced']),
+  readingTime: z.number().int().positive(),
+  status: z.enum(['Draft', 'Published']),
+  version: z.string(),
+  tags: z.array(z.string()).default([]),
+  technologies: z.array(z.string()).default([]),
+  related: z.array(z.string()).default([]),
+  author: z.string(),
+  publishedAt: z.string(),
+  updatedAt: z.string()
+})
+
 export default defineContentConfig({
   collections: {
     projects: defineCollection({
@@ -70,6 +89,14 @@ export default defineContentConfig({
         include: 'architecture/**/*.md'
       },
       schema: articleSchema
+    }),
+    documentation: defineCollection({
+      type: 'page',
+      source: {
+        cwd: 'src/content',
+        include: 'documentation/**/*.md'
+      },
+      schema: documentationSchema
     })
   }
 })

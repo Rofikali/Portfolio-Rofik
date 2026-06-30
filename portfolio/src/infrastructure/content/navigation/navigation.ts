@@ -12,13 +12,33 @@ export const navigation: NavItem[] = [
     },
 
     {
+        label: 'Engineering',
+        to: '/engineering'
+    },
+
+    {
         label: 'Architecture',
         to: '/architecture'
     },
 
     {
+        label: 'System Design',
+        to: '/system-design'
+    },
+
+    {
         label: 'Blog',
         to: '/blog'
+    },
+
+    {
+        label: 'About',
+        to: '/about'
+    },
+
+    {
+        label: 'Resume',
+        to: '/resume'
     },
 
     {
