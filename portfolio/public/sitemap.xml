@@ -1,18 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://rofikali.github.io/Portfolio-Rofik/</loc>
-  </url>
-  <url>
-    <loc>https://rofikali.github.io/Portfolio-Rofik/projects</loc>
-  </url>
-  <url>
-    <loc>https://rofikali.github.io/Portfolio-Rofik/case-studies</loc>
-  </url>
-  <url>
-    <loc>https://rofikali.github.io/Portfolio-Rofik/architecture</loc>
-  </url>
-  <url>
-    <loc>https://rofikali.github.io/Portfolio-Rofik/blog</loc>
-  </url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/about</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/resume</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/contact</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/search</loc></url>
+
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/projects</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/projects/lakhimpur-agri-business</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/projects/tiktok-clone</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/projects/imgengine</loc></url>
+
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/case-studies</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/case-studies/lakhimpur-agri-business</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/case-studies/tiktok-clone</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/case-studies/imgengine</loc></url>
+
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/architecture</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/architecture/hld/portfolio-hld</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/architecture/lld/portfolio-lld</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/architecture/adr/adr-002-why-fastapi</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/architecture/adr/adr-003-why-nuxt-static</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/architecture/adr/adr-004-why-postgresql-redis-kafka</loc></url>
+
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/system-design</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/system-design/instagram-feed</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/system-design/url-shortener</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/system-design/realtime-chat</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/system-design/notification-service</loc></url>
+
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/engineering/patterns/repository-pattern</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/engineering/caching/redis-patterns-production</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/engineering/messaging/kafka-event-streaming-basics</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/engineering/security/jwt-authentication-mistakes</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/engineering/devops/docker-networking-production</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/engineering/database/scaling-postgresql</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/engineering/architecture/cqrs-explained</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/engineering/observability/prometheus-grafana-observability</loc></url>
+  <url><loc>https://rofikali.github.io/Portfolio-Rofik/engineering/performance/lighthouse-performance-budget</loc></url>
 </urlset>

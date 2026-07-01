@@ -1,24 +1,13 @@
 ---
 id: tiktok
-
 slug: tiktok-clone
-
 title: TikTok Clone
-
 featured: true
-
 summary: Video sharing social platform.
-
-description: Social media application supporting video feeds, comments and likes.
-
+description: Social media application supporting video feeds, comments, likes, user profiles, and API-driven frontend integration.
 image: /images/projects/tiktok.webp
-
-# githubUrl: https://github.com/Rofikali/tiktok-clone
 githubUrl: https://github.com/Rofikali/TikTokClone
-
-# demoUrl: https://github.com/Rofikali/tiktok-clone#readme
 demoUrl: https://github.com/Rofikali/TikTokClone
-
 technologies:
   - Django
   - DRF
@@ -26,101 +15,163 @@ technologies:
   - Redis
   - Docker
   - Nuxt
-
 highlights:
-  - Authentication
-  - Infinite Feed
-  - Comments
-  - Likes
-
+  - Feed read model
+  - Cursor pagination
+  - Engagement workflows
+  - Redis cache strategy
 createdAt: 2025-01-01
-
-updatedAt: 2026-01-01
+updatedAt: 2026-07-01
 ---
 
 # Overview
 
 TikTok Clone is a social video platform project focused on feed browsing, comments, likes, user profiles, and API-driven frontend integration.
 
-The point of the project is not to copy a product surface. It is to reason through the backend and frontend architecture behind a media-heavy social workflow.
+The project is documented as a production-style system: the feed is treated as a read model, engagement actions are isolated as writes, and media storage is kept behind a clear boundary.
 
-# Problem
-
-Short-form video applications need fast feed access, user interaction workflows, and clear data boundaries. A naive implementation can couple comments, likes, video metadata, and feed ranking into one fragile model.
-
-The engineering problem was to separate the interactive product features while keeping the first version simple enough to build and reason about.
-
-# Solution
-
-The solution uses a Nuxt frontend with a Django REST API. PostgreSQL stores durable application data, while Redis supports cacheable feed and interaction paths.
-
-The system is designed so feed reads, comment writes, and like events can evolve independently.
-
-# Architecture Diagram
+# Architecture
 
 ```mermaid
 flowchart LR
-  User[User] --> Nuxt[Nuxt Frontend]
+  Browser[Browser] --> Nuxt[Nuxt Frontend]
   Nuxt --> API[Django REST API]
+  API --> Feed[Feed Service]
+  API --> Engagement[Engagement Service]
   API --> Postgres[(PostgreSQL)]
-  API --> Redis[(Redis Cache)]
+  Feed --> Redis[(Redis)]
   API --> Media[Media Storage Boundary]
 ```
 
-# Tech Stack
+# Screenshots
 
-- Nuxt and Vue for the frontend.
-- Django REST Framework for API development.
-- PostgreSQL for users, videos, comments, and likes.
-- Redis for cacheable feed and interaction data.
-- Docker for repeatable local development.
+Primary project visual: `/images/projects/tiktok.webp`.
+
+Future screenshots should include the feed page, video detail page, creator profile, and mobile layout.
 
 # API Design
 
-Core API resources:
+```http
+GET    /api/feed?cursor=...
+GET    /api/videos/{video_id}
+POST   /api/videos
+POST   /api/videos/{video_id}/likes
+DELETE /api/videos/{video_id}/likes
+GET    /api/videos/{video_id}/comments
+POST   /api/videos/{video_id}/comments
+GET    /api/users/{username}
+```
 
-- Users
-- Videos
-- Feed
-- Comments
-- Likes
+# Database Schema
 
-The feed should be a read-optimized endpoint, not a place where every social rule is hardcoded forever.
+```mermaid
+erDiagram
+  USER ||--o{ VIDEO : uploads
+  USER ||--o{ COMMENT : writes
+  USER ||--o{ LIKE : creates
+  VIDEO ||--o{ COMMENT : receives
+  VIDEO ||--o{ LIKE : receives
 
-# Database
+  USER {
+    uuid id
+    string username
+    string email
+  }
 
-PostgreSQL stores identity, video metadata, comments, likes, and relationships. The schema should enforce ownership, timestamps, and referential integrity.
+  VIDEO {
+    uuid id
+    uuid owner_id
+    string media_url
+    string status
+  }
+
+  COMMENT {
+    uuid id
+    uuid user_id
+    uuid video_id
+    text body
+  }
+
+  LIKE {
+    uuid user_id
+    uuid video_id
+  }
+```
 
 # Caching
 
-Redis can cache feed slices and frequently requested metadata. Cache invalidation should be explicit around new uploads, deleted videos, likes, and comments.
+Redis stores feed slices and video counters.
 
-# Deployment
+- `feed:global:{cursor}`
+- `feed:user:{user_id}:{cursor}`
+- `video:stats:{video_id}`
+- `profile:{username}`
 
-The intended deployment model is Docker-based for the API and database services, with the Nuxt frontend generated or deployed separately depending on the hosting target.
+Cache invalidation is event-driven around upload, delete, like, comment, and profile update workflows.
+
+# Messaging
+
+Engagement events can move through Kafka in the production version.
+
+```mermaid
+sequenceDiagram
+  participant API
+  participant DB as PostgreSQL
+  participant Kafka
+  participant Worker
+  participant Redis
+
+  API->>DB: Persist like/comment
+  API->>Kafka: Publish engagement event
+  Kafka->>Worker: Consume event
+  Worker->>Redis: Refresh counters
+```
 
 # Monitoring
 
-Useful metrics include feed latency, API error rate, comment creation failures, and cache hit ratio.
+Metrics:
 
-# Challenges
+- Feed p95 latency.
+- Cache hit ratio.
+- Like write conflicts.
+- Comment creation failures.
+- Database query duration.
+- Redis memory usage.
 
-- Keeping feed reads fast without overbuilding recommendation infrastructure.
-- Separating media concerns from relational metadata.
-- Preventing like/comment workflows from becoming tightly coupled.
-- Designing cache invalidation rules that match user behavior.
+# Deployment
+
+```mermaid
+flowchart TD
+  GitHub[GitHub] --> CI[CI]
+  CI --> APIImage[Django API Image]
+  APIImage --> Runtime[Container Runtime]
+  Runtime --> DB[(PostgreSQL)]
+  Runtime --> Cache[(Redis)]
+  Nuxt[Nuxt Static Frontend] --> CDN[Static Hosting/CDN]
+  CDN --> Runtime
+```
+
+# Performance
+
+Targets:
+
+- Cached feed p95 below 300 ms.
+- Uncached feed p95 below 700 ms.
+- Like/unlike p95 below 150 ms.
+- Comment write p95 below 250 ms.
+- First-page cache hit ratio above 80 percent.
 
 # Lessons Learned
 
-- Feed systems need read-model thinking early.
-- Media applications benefit from clear storage boundaries.
-- Caching should support product behavior, not hide database design problems.
-- A small social product still needs careful data ownership rules.
+- Feed systems need explicit read-model design.
+- Media bytes and metadata should not live in the same boundary.
+- Redis works best when invalidation rules are tied to product events.
+- Engagement write paths should be independently measurable.
 
 # GitHub
 
-Source code: [TikTok Clone](https://github.com/Rofikali/tiktok-clone)
+Source code: [TikTok Clone](https://github.com/Rofikali/TikTokClone)
 
 # Live Demo
 
-The public demo target is planned. For v0.1, the repository README is linked as the live technical preview.
+The repository README is linked as the live technical preview for v0.1.

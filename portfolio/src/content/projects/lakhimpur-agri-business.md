@@ -95,6 +95,37 @@ The API is organized around business resources:
 
 Business logic belongs in application services, not route handlers. Routes should validate input, call use cases, and return consistent response DTOs.
 
+Example API surface:
+
+```http
+POST /api/v1/auth/login
+GET /api/v1/farmers
+POST /api/v1/farmers
+GET /api/v1/inventory
+POST /api/v1/inventory/{id}/adjust
+POST /api/v1/orders
+GET /api/v1/analytics/dashboard
+```
+
+Request flow:
+
+```mermaid
+sequenceDiagram
+  actor Staff
+  participant UI as Nuxt UI
+  participant API as FastAPI Router
+  participant Service as Application Service
+  participant DB as PostgreSQL
+  participant Kafka
+
+  Staff->>UI: Create sale
+  UI->>API: POST /orders
+  API->>Service: validate command
+  Service->>DB: create order + stock movement
+  Service->>Kafka: publish OrderCreated
+  API-->>UI: 201 Created
+```
+
 # Database
 
 PostgreSQL is the source of truth. The schema should protect core invariants such as inventory quantities, user ownership, order state, and historical records.
@@ -105,6 +136,17 @@ Important design choices:
 - Keep audit/history records append-friendly.
 - Index frequently queried fields such as farmer, product, status, and created date.
 
+Suggested schema:
+
+```mermaid
+erDiagram
+  USER ||--o{ ORDER : creates
+  FARMER ||--o{ ORDER : places
+  ORDER ||--o{ ORDER_LINE : includes
+  INVENTORY_ITEM ||--o{ ORDER_LINE : references
+  INVENTORY_ITEM ||--o{ STOCK_MOVEMENT : changes
+```
+
 # Caching
 
 Redis is used for data that is safe to recompute:
@@ -114,6 +156,30 @@ Redis is used for data that is safe to recompute:
 - Session-adjacent short-lived state
 
 Cache invalidation should happen from domain events, especially inventory and sales updates.
+
+Cache keys:
+
+- `dashboard:summary`
+- `inventory:low-stock`
+- `product:lookup`
+- `sales:daily:{date}`
+
+Cache rules:
+
+- Never trust Redis as the source of truth for stock.
+- Keep TTLs short for operational dashboards.
+- Invalidate on `InventoryChanged` and `OrderCreated`.
+
+# Messaging
+
+Kafka is used for asynchronous business events:
+
+- `OrderCreated`
+- `InventoryChanged`
+- `PaymentRecorded`
+- `AuditEventCreated`
+
+Events allow analytics, audit, notifications, and reporting to evolve without slowing down the transactional request path.
 
 # Deployment
 
@@ -126,9 +192,46 @@ The target deployment model is Docker-first:
 - Kafka service
 - Monitoring services
 
+```mermaid
+flowchart LR
+  Browser --> Frontend[Nuxt Frontend]
+  Frontend --> API[FastAPI API]
+  API --> DB[(PostgreSQL)]
+  API --> Redis[(Redis)]
+  API --> Kafka[Kafka]
+  Prometheus --> API
+  Grafana --> Prometheus
+```
+
 # Monitoring
 
 Prometheus should scrape API metrics such as request latency, error rate, cache hits, and background job throughput. Grafana dashboards should answer operational questions rather than show decorative charts.
+
+Metrics to expose:
+
+- `http_requests_total`
+- `http_request_duration_seconds`
+- `inventory_mutations_total`
+- `redis_cache_hits_total`
+- `redis_cache_misses_total`
+- `kafka_consumer_lag`
+- `background_jobs_failed_total`
+
+# Performance
+
+Performance targets:
+
+- Dashboard p95 response under 300 ms when cache is warm.
+- API p95 response under 500 ms for common CRUD flows.
+- Paginated tables for inventory, farmers, and orders.
+- No expensive analytics query on the initial page render.
+
+Performance techniques:
+
+- Database indexes for filtering and date ranges.
+- Redis cache for dashboard summaries.
+- Async event processing for analytics.
+- Static frontend assets through Nuxt build output.
 
 # Challenges
 

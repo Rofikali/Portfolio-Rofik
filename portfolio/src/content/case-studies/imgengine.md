@@ -6,117 +6,158 @@ project: IMGENGINE CLI
 projectSlug: imgengine
 summary: A systems-focused case study on building a high-performance image processing CLI in C with attention to memory, SIMD, and Linux workflows.
 difficulty: Advanced
-estimatedReadTime: 8
+estimatedReadTime: 20
 technologies:
   - C
   - Linux
   - AVX2
   - SIMD
 publishedAt: 2026-06-24
-updatedAt: 2026-06-26
+updatedAt: 2026-07-01
 ---
 
 # Executive Summary
 
-IMGENGINE is a high-performance image processing CLI written in C.
+IMGENGINE is a high-performance image processing CLI written in C. It focuses on predictable memory usage, batch workflows, Linux-first execution, and CPU-aware optimization.
 
-The objective was to explore:
+The project demonstrates engineering skills that are different from web application development: memory ownership, buffer layout, command design, profiling, error handling, and performance tradeoffs.
 
-- Memory efficiency
-- SIMD optimization
-- Linux systems programming
+# Problem
 
-while building a production-quality command line tool.
+Image processing tools can become slow or memory-heavy when each transformation allocates new buffers, copies data repeatedly, or hides expensive operations behind broad abstractions.
 
----
+For a CLI, the problem is broader than raw speed. The tool must also be scriptable, deterministic, debuggable, and safe to run in batch jobs.
 
-# Problem Statement
+# Business Requirements
 
-Traditional image processing tools often consume excessive memory and are not optimized for modern CPU instruction sets.
-
-The goal was to create a lightweight image processing engine capable of handling large image workloads efficiently.
-
----
-
-# Requirements
-
-## Functional
-
-- Load images
-- Transform images
-- Export images
-- Batch processing
-
-## Non Functional
-
-- Low memory usage
-- Fast execution
-- Linux compatibility
-
----
+- Accept image input from local file paths.
+- Apply transformations through predictable CLI flags.
+- Write output files with clear success and failure states.
+- Support batch processing.
+- Keep memory usage bounded.
+- Make performance measurable through profiling.
 
 # Architecture
 
-CLI
+```mermaid
+flowchart LR
+  Shell[Shell Script/User] --> CLI[CLI Interface]
+  CLI --> Parser[Argument Parser]
+  Parser --> Validator[Input Validator]
+  Validator --> Decoder[Image Decoder]
+  Decoder --> Pipeline[Transformation Pipeline]
+  Pipeline --> SIMD[SIMD Hot Path]
+  Pipeline --> Scalar[Scalar Fallback]
+  SIMD --> Writer[Output Writer]
+  Scalar --> Writer
+  Writer --> Files[Output Files]
+```
 
-↓
+The CLI boundary is intentionally boring. Performance complexity stays inside the engine, not inside user-facing command behavior.
 
-Parser
+# Challenges
 
-↓
+- Keeping manual memory ownership readable.
+- Avoiding premature SIMD optimization.
+- Designing useful error messages in C.
+- Keeping the transformation pipeline testable.
+- Making optimized routines optional instead of required everywhere.
 
-Image Engine
+# Database
 
-↓
+IMGENGINE does not need a relational database. The persistence boundary is the filesystem.
 
-Transformation Pipeline
+Important filesystem rules:
 
-↓
+- Never overwrite output unless explicitly requested.
+- Fail fast when input paths are invalid.
+- Keep temporary files isolated.
+- Return non-zero exit codes for script automation.
 
-Output Writer
+# Caching
 
----
+The project does not use Redis. Caching is CPU and memory oriented:
 
-# Technology Decisions
+- Reuse allocated buffers when processing batches.
+- Keep hot pixel data contiguous.
+- Avoid unnecessary decode-transform-encode loops.
+- Prefer streaming or tiled processing for large images.
 
-C
+# Queue
 
-Chosen for:
+Batch mode can be modeled as a local work queue:
 
-- Performance
-- Memory control
-- Systems-level learning
+```mermaid
+sequenceDiagram
+  participant CLI
+  participant Queue as Batch Queue
+  participant Worker as Transform Worker
+  participant Writer
 
-AVX2
+  CLI->>Queue: Enqueue image paths
+  loop each image
+    Queue->>Worker: Next job
+    Worker->>Worker: Decode and transform
+    Worker->>Writer: Write output
+  end
+  Writer-->>CLI: Exit code summary
+```
 
-Chosen for:
+In a future server version, this same model could move to Kafka, SQS, or Redis streams.
 
-- SIMD acceleration
+# Monitoring
 
-Linux
+For a CLI, observability is local and explicit:
 
-Chosen for:
+- `--verbose` mode for operation-level logs.
+- Timing output for decode, transform, and write phases.
+- Exit codes for automation.
+- Optional benchmark mode for profiling.
+- Memory checks with tools such as Valgrind or sanitizers.
 
-- Native development environment
+# Deployment
 
----
+```mermaid
+flowchart TD
+  Source[Source Code] --> Build[Make/CMake Build]
+  Build --> Tests[Unit and Integration Tests]
+  Tests --> Binary[Linux Binary]
+  Binary --> Release[GitHub Release]
+  Release --> User[CLI User]
+```
 
-# Tradeoffs
+The release artifact should include the binary, usage examples, supported formats, and benchmark notes.
 
-Pros:
+# Performance
 
-- High performance
-- Low memory overhead
+Performance targets:
 
-Cons:
+- Avoid unbounded memory growth during batch jobs.
+- Keep allocations outside inner loops.
+- Use SIMD only on measured hot paths.
+- Keep scalar fallback correct and easy to test.
+- Report benchmark numbers with image size and CPU details.
 
-- Increased complexity
-- Manual memory management
+Optimization approach:
 
----
+1. Build a correct scalar implementation.
+2. Add profiling around decode, transform, and write.
+3. Optimize memory layout and allocation behavior.
+4. Add SIMD only where profiling proves value.
+5. Compare output correctness across scalar and SIMD paths.
 
 # Lessons Learned
 
-- Cache locality matters
-- Profiling should guide optimization
-- Simplicity often outperforms cleverness
+- Memory layout often matters before algorithm cleverness.
+- Manual memory management needs naming discipline and ownership rules.
+- SIMD is a tool, not an architecture.
+- Script-friendly CLI behavior is a product feature.
+- Profiling is the only honest way to decide what to optimize.
+
+# Future Improvements
+
+- Add benchmark reports to the README.
+- Add fuzz testing for image inputs.
+- Add sanitizer builds to CI.
+- Add worker-threaded batch processing.
+- Add cross-platform build notes.

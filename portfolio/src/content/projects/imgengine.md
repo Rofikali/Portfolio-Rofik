@@ -1,92 +1,138 @@
 ---
 id: imgengine
-
 slug: imgengine
-
 title: IMGENGINE CLI
-
 featured: true
-
 summary: High-performance image processing CLI.
-
-description: Image processing engine written in C focused on performance and memory efficiency.
-
+description: Image processing engine written in C focused on performance, memory efficiency, batch workflows, and Linux systems programming.
 image: /images/projects/imgengine.webp
-
-# githubUrl: https://github.com/Rofikali/imgengine
 githubUrl: https://github.com/Rofikali/imgengine
-
-# demoUrl: https://github.com/Rofikali/imgengine#readme
 demoUrl: https://github.com/Rofikali/imgengine
-
 technologies:
   - C
   - Linux
   - AVX2
   - SIMD
-
 highlights:
   - SIMD optimization
-  - Memory-efficient architecture
-  - Batch image processing
-
+  - Memory ownership
+  - Batch processing
+  - Profiling-first performance
 createdAt: 2025-01-01
-
-updatedAt: 2026-01-01
+updatedAt: 2026-07-01
 ---
 
 # Overview
 
-IMGENGINE is a high-performance image processing CLI focused on batch image workflows, predictable memory usage, and Linux-first systems programming.
+IMGENGINE is a high-performance image processing CLI focused on predictable memory usage, Linux workflows, and CPU-aware optimization.
 
-The project demonstrates low-level engineering concerns that do not show up in ordinary CRUD applications: memory layout, data movement, CPU-friendly processing, and operational simplicity from the command line.
+The project demonstrates systems-level engineering: command contracts, memory layout, buffer ownership, profiling, SIMD hot paths, and release packaging.
 
-# Problem
-
-Image processing workloads can become expensive when each transformation repeatedly allocates memory, copies buffers, or hides expensive operations behind broad abstractions. For a CLI tool, the user also expects clear input/output behavior, scriptability, and failure modes that are easy to debug.
-
-The engineering problem was to design a compact image pipeline that keeps the command interface simple while leaving room for optimized internals.
-
-# Solution
-
-The solution is a layered CLI architecture:
-
-- A command interface parses user intent.
-- A validation layer rejects invalid inputs early.
-- The image engine owns decoding, transformation, and output orchestration.
-- SIMD-focused routines can optimize hot paths without leaking complexity into the CLI boundary.
-
-# Architecture Diagram
+# Architecture
 
 ```mermaid
 flowchart LR
   CLI[CLI Interface] --> Parser[Argument Parser]
   Parser --> Validator[Input Validator]
-  Validator --> Engine[Image Engine]
-  Engine --> SIMD[AVX2 SIMD Layer]
-  Engine --> Writer[Output Writer]
+  Validator --> Decoder[Decoder]
+  Decoder --> Pipeline[Transform Pipeline]
+  Pipeline --> SIMD[AVX2 SIMD Layer]
+  Pipeline --> Scalar[Scalar Fallback]
+  SIMD --> Writer[Output Writer]
+  Scalar --> Writer
 ```
 
-# Tech Stack
+# Screenshots
 
-- C for memory control and predictable performance.
-- Linux for the target execution environment.
-- AVX2/SIMD for hot-path optimization experiments.
-- Shell-friendly CLI conventions for automation.
+Primary project visual: `/images/projects/imgengine.webp`.
 
-# Challenges
+Future screenshots should include terminal usage, benchmark output, and before/after image transformations.
 
-- Keeping manual memory ownership understandable.
-- Avoiding premature optimization before profiling.
-- Designing a CLI that is strict enough for scripts but friendly during local use.
-- Separating optimized routines from the higher-level transformation pipeline.
+# API Design
+
+IMGENGINE is a CLI, so the public API is the command interface.
+
+```bash
+imgengine resize --input input.jpg --output output.jpg --width 1280
+imgengine batch --input ./images --output ./dist --format webp
+imgengine bench --input sample.jpg --operation resize
+```
+
+# Database Schema
+
+No relational database is required. The persistence boundary is the filesystem.
+
+Filesystem contract:
+
+- Validate input before processing.
+- Avoid accidental overwrite unless explicitly requested.
+- Emit non-zero exit codes for failures.
+- Keep temporary files isolated.
+
+# Caching
+
+Caching is local and memory-oriented:
+
+- Reuse buffers across batch jobs.
+- Keep hot pixel data contiguous.
+- Avoid allocation inside inner loops.
+- Add tiled processing for very large images.
+
+# Messaging
+
+Batch processing is modeled as a local queue.
+
+```mermaid
+sequenceDiagram
+  participant CLI
+  participant Queue
+  participant Worker
+  participant Writer
+
+  CLI->>Queue: Add image jobs
+  loop batch
+    Queue->>Worker: Dispatch image
+    Worker->>Worker: Decode and transform
+    Worker->>Writer: Write output
+  end
+```
+
+# Monitoring
+
+CLI observability:
+
+- Verbose logs.
+- Benchmark mode.
+- Phase timing for decode, transform, and write.
+- Exit-code summary.
+- Sanitizer and Valgrind checks during development.
+
+# Deployment
+
+```mermaid
+flowchart TD
+  Code[Source Code] --> Build[Make/CMake]
+  Build --> Tests[Tests]
+  Tests --> Binary[Linux Binary]
+  Binary --> Release[GitHub Release]
+  Release --> User[CLI User]
+```
+
+# Performance
+
+Targets:
+
+- No unbounded memory growth during batch processing.
+- No allocation inside hot transform loops.
+- SIMD paths verified against scalar output.
+- Benchmarks documented by CPU, image size, and operation.
 
 # Lessons Learned
 
-- Cache locality and allocation strategy matter before clever algorithms.
-- Profiling should decide what deserves SIMD work.
-- A boring CLI contract is a feature when the tool is used in scripts.
-- Clear module boundaries make low-level code easier to test and evolve.
+- Profiling decides what should be optimized.
+- SIMD should be isolated behind a small interface.
+- Command-line reliability is part of product quality.
+- Manual memory management needs strict ownership rules.
 
 # GitHub
 
@@ -94,4 +140,4 @@ Source code: [IMGENGINE](https://github.com/Rofikali/imgengine)
 
 # Live Demo
 
-The live demo is the repository README and CLI usage documentation. A browser-hosted demo is not planned for v0.1 because the project is intentionally a local systems CLI.
+The repository README and CLI usage documentation are the live technical preview for v0.1.
