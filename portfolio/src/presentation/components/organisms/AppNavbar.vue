@@ -3,6 +3,7 @@ import { navigation } from '@/infrastructure/content/navigation/navigation'
 
 const route = useRoute()
 const isOpen = ref(false)
+const { themeMode, toggleThemeMode } = useThemeMode()
 
 const isActive = (to: string) => {
   if (to === '/') {
@@ -46,6 +47,15 @@ watch(() => route.fullPath, () => {
         </nav>
 
         <div class="flex items-center gap-2">
+          <button
+            type="button"
+            class="rounded-md bg-white px-3 py-2 text-xs font-semibold text-slate-950 shadow-sm transition hover:bg-slate-200"
+            :aria-label="themeMode === 'dark' ? 'Switch to light background' : 'Switch to dark background'"
+            @click="toggleThemeMode"
+          >
+            {{ themeMode === 'dark' ? 'Light' : 'Dark' }}
+          </button>
+
           <NuxtLink
             to="/search"
             class="grid size-8 place-items-center rounded-md border border-slate-800 text-xs text-slate-400 transition hover:border-blue-500 hover:text-white"
