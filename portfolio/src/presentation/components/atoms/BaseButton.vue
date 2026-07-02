@@ -18,7 +18,7 @@ withDefaults(
 
         variant === 'primary'
             ? 'bg-blue-600 text-white hover:bg-blue-500'
-            : 'border border-slate-700 text-slate-300 hover:border-slate-500'
+            : 'bg-white text-slate-950 hover:bg-slate-200'
     ]">
         <slot />
     </a>

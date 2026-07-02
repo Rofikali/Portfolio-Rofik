@@ -6,6 +6,19 @@ interface Props {
 }
 
 defineProps<Props>()
+
+const runtimeConfig = useRuntimeConfig()
+
+const assetUrl = (path?: string) => {
+    if (!path) {
+        return undefined
+    }
+
+    const baseUrl = runtimeConfig.app.baseURL.replace(/\/$/, '')
+    const normalizedPath = path.replace(/^\//, '')
+
+    return `${baseUrl}/${normalizedPath}`
+}
 </script>
 
 <template>
@@ -13,7 +26,7 @@ defineProps<Props>()
         <NuxtLink :to="`/projects/${project.slug}`" class="block">
             <img
                 v-if="project.image"
-                :src="project.image"
+                :src="assetUrl(project.image)"
                 :alt="project.title"
                 class="aspect-video w-full object-cover transition duration-300 group-hover:scale-[1.02]"
                 loading="lazy"
@@ -47,7 +60,7 @@ defineProps<Props>()
                     :href="project.githubUrl"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="text-slate-500 hover:text-white"
+                    class="rounded-md bg-white px-3 py-1.5 text-xs font-semibold text-slate-950 transition hover:bg-slate-200"
                 >
                     GitHub
                 </a>

@@ -16,6 +16,9 @@ const printResume = () => {
   }
 }
 
+const runtimeConfig = useRuntimeConfig()
+const resumeUrl = `${runtimeConfig.app.baseURL.replace(/\/$/, '')}/resume.pdf`
+
 useSeoMeta({
   title: 'Resume | Rofik',
   description: 'Resume, experience, skills, and engineering background.'
@@ -32,7 +35,7 @@ useSeoMeta({
         </div>
 
         <div class="flex gap-2">
-          <a href="/resume.pdf" class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-500">Download PDF</a>
+          <a :href="resumeUrl" class="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-slate-950 hover:bg-slate-200">Download PDF</a>
           <button class="rounded-lg border border-slate-800 px-4 py-2 text-sm text-slate-300 hover:border-blue-500" type="button" @click="printResume">
             Print
           </button>

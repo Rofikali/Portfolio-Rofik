@@ -1,5 +1,17 @@
 <script setup lang="ts">
 const route = useRoute()
+const runtimeConfig = useRuntimeConfig()
+
+const assetUrl = (path?: string) => {
+    if (!path) {
+        return undefined
+    }
+
+    const baseUrl = runtimeConfig.app.baseURL.replace(/\/$/, '')
+    const normalizedPath = path.replace(/^\//, '')
+
+    return `${baseUrl}/${normalizedPath}`
+}
 
 const project = await queryCollection('projects')
     .where('slug', '=', route.params.slug)
@@ -17,7 +29,7 @@ useSeoMeta({
     description: project.summary,
     ogTitle: project.title,
     ogDescription: project.summary,
-    ogImage: project.image,
+    ogImage: assetUrl(project.image),
     twitterCard: 'summary_large_image'
 })
 
@@ -90,7 +102,7 @@ const architectureSteps = architectureMap[project.slug] || []
                             :href="project.demoUrl"
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="rounded-lg border border-slate-700 px-6 py-3 font-medium text-slate-300 transition hover:border-slate-500"
+                            class="rounded-lg bg-white px-6 py-3 font-medium text-slate-950 transition hover:bg-slate-200"
                         >
                             Live Demo
                         </a>
@@ -99,7 +111,7 @@ const architectureSteps = architectureMap[project.slug] || []
 
                 <img
                     v-if="project.image"
-                    :src="project.image"
+                    :src="assetUrl(project.image)"
                     :alt="project.title"
                     class="aspect-video w-full rounded-lg border border-slate-800 object-cover"
                     fetchpriority="high"

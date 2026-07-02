@@ -6,6 +6,15 @@ interface Props {
 }
 
 defineProps<Props>()
+
+const runtimeConfig = useRuntimeConfig()
+
+const assetUrl = (path: string) => {
+  const baseUrl = runtimeConfig.app.baseURL.replace(/\/$/, '')
+  const normalizedPath = path.replace(/^\//, '')
+
+  return `${baseUrl}/${normalizedPath}`
+}
 </script>
 
 <template>
@@ -38,7 +47,7 @@ defineProps<Props>()
               View Projects
             </a>
 
-            <a :href="profile.resumeUrl" class="rounded-lg border border-slate-700 px-5 py-3 text-sm font-semibold text-slate-300 transition hover:border-slate-500">
+            <a :href="assetUrl(profile.resumeUrl)" class="rounded-lg bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200">
               Download Resume
             </a>
           </div>
