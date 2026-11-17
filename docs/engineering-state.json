@@ -68,7 +68,7 @@
       "title": "Automated documentation synchronization",
       "lane": "NOW",
       "state": "IN_PROGRESS",
-      "pr": null,
+      "pr": 7,
       "summary": "Generate milestone status across docs; PR drift gate and reviewed post-merge reconciliation."
     },
     {

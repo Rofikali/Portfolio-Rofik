@@ -10,7 +10,7 @@ Generated status from [docs/engineering-state.json](docs/engineering-state.json)
 ## NOW / NEXT / BLOCKED / LATER
 | Milestone | Work | State | Next action / limitation | PR |
 | --- | --- | --- | --- | --- |
-| DOCSYNC-001 | Automated documentation synchronization | **IN_PROGRESS** | Generate milestone status across docs; PR drift gate and reviewed post-merge reconciliation. | — |
+| DOCSYNC-001 | Automated documentation synchronization | **IN_PROGRESS** | Generate milestone status across docs; PR drift gate and reviewed post-merge reconciliation. | [PR #7](https://github.com/Rofikali/Portfolio-Rofik/pull/7) |
 | SEARCH-001 | Unified published content search | **READY** | Projects, cases and published docs with path/empty/Unicode tests. | — |
 | TEST-003 | Browser accessibility coverage | **PLANNED** | Keyboard, focus, contrast, generated links and measured browser checks. | — |
 | PERF-A11Y-001 | CSS and performance | **PLANNED** | Tailwind/PostCSS warning, mobile contrast, image size and Lighthouse. | — |
