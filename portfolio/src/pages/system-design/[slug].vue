@@ -6,6 +6,7 @@ const slug = String(route.params.slug)
 const document = await getDocumentationBySlug(slug)
 const article = await queryCollection('documentation')
   .where('slug', '=', slug)
+  .where('status', '=', 'Published')
   .first()
 
 if (!document || !article) {

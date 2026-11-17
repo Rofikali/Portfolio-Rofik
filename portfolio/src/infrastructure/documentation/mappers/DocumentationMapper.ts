@@ -28,7 +28,8 @@ export const mapContentToDocumentation = (document: ContentDocument): Documentat
     technologies: asStringArray(data.technologies),
     difficulty: asString(data.difficulty, 'Intermediate') as Documentation['difficulty'],
     readingTime: asNumber(data.readingTime, 8),
-    status: asString(data.status, 'Published') as Documentation['status'],
+    // Never turn malformed/missing publish state into a public document.
+    status: asString(data.status, 'Draft') as Documentation['status'],
     version: asString(data.version, '1.0.0'),
     author: asString(data.author, 'Rofik'),
     publishedAt: asString(data.publishedAt),
