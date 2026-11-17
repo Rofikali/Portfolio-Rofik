@@ -1,60 +1,37 @@
-performance-budget.md
-Objective
+# Portfolio Performance Budget — Targets, Not Recorded Scores
 
-Maintain excellent user experience.
+**Scope:** GitHub Pages static Nuxt application. No recent Lighthouse/Core Web Vitals or browser trace was collected for this docs update.
 
-Lighthouse Targets
+## Proposed goals (field data takes precedence)
 
-Performance > 95
+| Metric | Target | Verification |
+| --- | --- | --- |
+| Lighthouse Performance | ≥95 on named device/network | Lighthouse report and date/URL |
+| Accessibility | ≥95 plus manual WCAG 2.2 AA review | axe/keyboard/contrast; score alone insufficient |
+| SEO / Best Practices | ≥95 (or 100 if sustainable) | Lighthouse plus link/metadata inspection |
+| LCP | <2.5 s | Field or reproducible lab evidence |
+| CLS | <0.1 | Field or lab evidence |
+| INP | <200 ms | Field data; do not invent from build result |
+| Initial JS | Aim <150 KiB gzip | Measured page-specific bundle |
+| CSS | Aim <50 KiB gzip | Measured first-page CSS |
+| Images | Aim <500 KiB total per typical initial viewport | Build artifact and network trace |
 
-Accessibility > 95
+Targets are starting budgets, not guaranteed results on every browser/device.
 
-Best Practices > 95
+## Repository asset baseline
 
-SEO > 95
+At audited `main`, the tracked original assets are approximately: `public/images/projects/imgengine.webp` **1.88 MB**, `lakhimpur.webp` **611 KB**, `tiktok.webp` **287 KB**. This is file-size evidence, not proof of network bytes loaded on the same page. The first two exceed the per-asset budget and should be prioritized with responsive sizes and modern codecs.
 
-Core Web Vitals
+## Optimization strategy
 
-LCP < 2.5s
+- Size/download the hero visual appropriately; verify `fetchpriority` only for the actual LCP resource.
+- Generate responsive thumbnails and use correct width/height/aspect ratios; lazy-load below-fold assets.
+- Keep client hydration minimal, do not add heavy full-text search/dependency for a small content corpus without evidence.
+- Verify light/dark styles and cross-page navigation rather than optimizing only one screenshot.
+- Preserve image quality and accessibility; compression is a measured tradeoff.
 
-CLS < 0.1
+## Measurement protocol
 
-INP < 200ms
+Capture exact source SHA and URL, browser/device, viewport, network/CPU conditions, cold vs warm load, Lighthouse version, transferred bytes and reports. Compare baseline and new results for affected routes. Do not say "95+" or "sub-second" merely because a static build succeeds.
 
-Bundle Budget
-
-Initial JS:
-
-< 150KB gzip
-
-CSS:
-
-< 50KB gzip
-
-Images:
-
-< 500KB per page
-
-Asset Strategy
-
-Use:
-
-WebP
-AVIF
-Lazy Loading
-Responsive Images
-Rendering Strategy
-
-Static Generation
-
-No runtime API requests.
-
-No unnecessary hydration.
-
-Monitoring
-
-Run Lighthouse in CI.
-
-Fail build if budget exceeded.
-
-================================================
+Follow [scoped verification](change-scoped-verification.md) and [content/SEO/a11y](content-seo-accessibility.md).

@@ -1,239 +1,36 @@
-# CI/CD Design
+# CI/CD and Deployment — Verified Workflow Contract
 
-## Goal
+**Main baseline 2026-11-17:** inspected existing workflow YAML, not a proposed new pipeline. Workflows live at repository root in `.github/workflows/`, app workspace is `portfolio/`.
 
-Every commit should be:
+## Current paths
 
-* Verified
-* Tested
-* Built
-* Deployed automatically
+- `ci.yml`: on PR and push to main, uses Node from `portfolio/.nvmrc` (=22), pnpm 10, frozen lockfile, `pnpm test`, `pnpm typecheck`, `pnpm generate` with `NUXT_APP_BASE_URL=/Portfolio-Rofik/`.
+- `security.yml`: weekly/dispatch, frozen install, `pnpm audit --audit-level high`. Historical Aug 31 result failed with 35 advisories.
+- `deploy-pages.yml`: build/test/typecheck/generate/upload/deploy to Pages, with deploy permissions `pages: write` and `id-token: write`. Currently triggered by pushes to `main`, `master`, **and `featured/v2`** plus manual dispatch. That is a production integrity concern to review in CICD-001.
 
-No manual deployment.
+## Verified historic runs
 
----
+| Run | Date | Conclusion |
+| --- | --- | --- |
+| [CI](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/28585405339) | 2026-07-02 | SUCCESS |
+| [Pages](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/28585405304) | 2026-07-02 | SUCCESS |
+| [Later Pages](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/28586292162) | 2026-07-02 | FAILED in deploy job after successful build; exact cause not established |
+| [Security audit](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/33391514956) | 2026-08-31 | FAILED on `pnpm audit` |
 
-# Pipeline
+Current default branch `main` was unprotected at audit time. No current live-site check is asserted.
 
-Developer
-↓
-Git Push
-↓
-GitHub Actions
-↓
-Lint
-↓
-Type Check
-↓
-Unit Tests
-↓
-Build
-↓
-Deploy
-↓
-GitHub Pages
+## Target proposal (not yet implemented)
 
----
+- Protect main, require review and exact required checks; decide whether owner allows self-merge on a single-owner project.
+- Only `main` may trigger production Pages deployment. Use explicit preview environment for feature branches rather than publishing to production.
+- Add meaningful lint/Playwright/links/a11y gates **after they have real implementation**; do not mark them currently running.
+- Apply minimal permissions per job, pinned/maintained trusted GitHub Actions and dependency-update review.
+- Keep deployment artifact provenance and fallback to prior known-good commit; review actual Pages environment state before release claims.
 
-# Branch Strategy
+## Rollback / incident response
 
-main
+Investigate failed job and last deployed SHA first. For a bad release, revert on a reviewed PR and let the approved main pipeline deploy; do not force-push main or publish an unverified previous artifact. For a compromised credential, use documented revocation outside code review.
 
-Production branch.
+## Definition of Done
 
-develop
-
-Integration branch.
-
-feature/*
-
-Feature development.
-
-Examples:
-
-feature/project-showcase
-
-feature/blog-system
-
-feature/contact-section
-
----
-
-# Pull Request Rules
-
-Required checks:
-
-✓ ESLint
-
-✓ TypeScript
-
-✓ Build
-
-✓ Tests
-
-No direct pushes to main.
-
----
-
-# Workflow 1
-
-ci.yml
-
-Triggers:
-
-* Pull Request
-* Push
-
-Steps:
-
-1. Checkout
-
-2. Install Dependencies
-
-3. Run Linter
-
-4. Run Type Check
-
-5. Run Tests
-
-6. Build
-
-Success Criteria:
-
-Build passes.
-
----
-
-# Workflow 2
-
-security.yml
-
-Runs weekly.
-
-Checks:
-
-* npm audit
-* dependency review
-* secret scanning
-
-Goal:
-
-Prevent vulnerable dependencies.
-
----
-
-# Workflow 3
-
-deploy.yml
-
-Trigger:
-
-Push to main
-
-Steps:
-
-1. Build static site
-
-2. Generate sitemap
-
-3. Generate metadata
-
-4. Upload artifact
-
-5. Deploy GitHub Pages
-
----
-
-# Quality Gates
-
-Coverage
-
-> = 80%
-
-TypeScript
-
-0 errors
-
-ESLint
-
-0 warnings
-
-Build
-
-Must succeed
-
----
-
-# Deployment Architecture
-
-Developer
-↓
-GitHub Repository
-↓
-GitHub Actions
-↓
-Static Build
-↓
-GitHub Pages
-↓
-CDN
-↓
-End User
-
----
-
-# Rollback Strategy
-
-Git revert commit
-
-Push
-
-Automatic redeploy
-
-No manual server access required.
-
----
-
-# Future Evolution
-
-Phase 1
-
-GitHub Pages
-
-Phase 2
-
-Cloudflare Pages
-
-Phase 3
-
-Custom Domain
-
-Phase 4
-
-Edge Functions
-
-Phase 5
-
-Observability Stack
-
-* Plausible
-* Sentry
-* OpenTelemetry
-
----
-
-# Definition of Done
-
-Feature is complete only when:
-
-✓ Code implemented
-
-✓ Tests added
-
-✓ Documentation updated
-
-✓ ADR updated (if architecture changed)
-
-✓ CI passes
-
-✓ Production deployment succeeds
+Exact HEAD checks run, expected Pages paths generated, vulnerability state triaged, owner approves merge/release, deployment succeeds and public pages are checked. The documentation-only DOC-001 PR does not modify these workflows.
