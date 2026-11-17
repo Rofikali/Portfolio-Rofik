@@ -1,4 +1,4 @@
-name: SEC-001 Temporary Dependency Repair Candidate
+name: SEC-001 Temporary Dependency Refresh Candidate
 
 on:
   push:
@@ -24,13 +24,13 @@ jobs:
           node-version-file: portfolio/.nvmrc
           cache: pnpm
           cache-dependency-path: portfolio/pnpm-lock.yaml
-      - name: Record baseline audit
+      - name: Record pre-update audit
         run: pnpm audit --json > sec001-audit-before.json || true
-      - name: Generate minimally invasive repair candidate
-        run: pnpm audit --fix || true
-      - name: Resolve updated lockfile
-        run: pnpm install --no-frozen-lockfile --lockfile-only
-      - name: Record repaired audit
+      - name: Update compatible dependencies within declared ranges
+        run: pnpm update
+      - name: Add explicit Nuxt type checker
+        run: pnpm add -D vue-tsc@^3.1.0
+      - name: Record post-update audit
         run: pnpm audit --json > sec001-audit-after.json || true
       - name: Verify frozen lockfile install
         run: pnpm install --frozen-lockfile
@@ -42,6 +42,19 @@ jobs:
         env:
           NUXT_APP_BASE_URL: /Portfolio-Rofik/
         run: pnpm generate
+      - name: Export generated manifest and lockfile as chunked text
+        if: always()
+        run: |
+          node - <<'NODE'
+          const fs = require('node:fs')
+          for (const file of ['package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml']) {
+            const content = fs.readFileSync(file, 'utf8')
+            const parts = content.match(/[\s\S]{1,2800}/g) || []
+            console.log('SEC001_BEGIN ' + file + ' ' + parts.length)
+            parts.forEach((part, i) => console.log('SEC001_PART ' + file + ' ' + i + ' ' + JSON.stringify(part)))
+            console.log('SEC001_END ' + file)
+          }
+          NODE
       - name: Upload candidate lockfile, manifests and audit reports
         if: always()
         uses: actions/upload-artifact@v4
