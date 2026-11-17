@@ -38,3 +38,16 @@ test('mobile navigation can be opened and a destination visited', async ({ page 
   await page.getByRole('navigation').last().getByRole('link', { name: 'Projects' }).click()
   await expect(page).toHaveURL(/\/Portfolio-Rofik\/projects\/?$/)
 })
+
+test('unified search finds projects and case studies with a scoped filter', async ({ page }) => {
+  await page.goto('search?q=IMGENGINE')
+  await expect(page.getByRole('heading', { name: 'Search results' })).toBeVisible()
+  await expect(page.getByRole('link', { name: /Project IMGENGINE CLI/ })).toBeVisible()
+  await expect(page.getByRole('link', { name: /Case study IMGENGINE CLI/ })).toBeVisible()
+
+  await page.getByLabel('Content type').selectOption('case-studies')
+  await page.getByRole('button', { name: 'Search', exact: true }).click()
+  await expect(page).toHaveURL(/type=case-studies/)
+  await expect(page.getByRole('link', { name: /Case study IMGENGINE CLI/ })).toBeVisible()
+  await expect(page.getByRole('link', { name: /Project IMGENGINE CLI/ })).toHaveCount(0)
+})
