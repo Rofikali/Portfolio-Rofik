@@ -1,40 +1,31 @@
 # Portfolio-Rofik — Live NOW / NEXT / LATER board
 
-**Updated:** 2026-11-17 (draft [PR #1](https://github.com/Rofikali/Portfolio-Rofik/pull/1) open for review; no main merge or release is implied). This is the **single task-selection board**, not a long historical chat. Cross-check GitHub HEAD, open PRs and exact-head CI before any continuation. Source-of-truth precedence: GitHub merged source/checks > current board > historic planning prose.
+**Updated 2026-11-17 — security update proposal only.** Current GitHub PR/merge/CI evidence overrides this historical snapshot. Any running agent must check open PRs and main SHA before selecting work.
 
-**Verified baseline before this proposal:** `main` at `46bd300ba74e6a2ccabd916f00f9da720f7aca14` (2026-07-02); CI succeeded on that SHA; Pages deployed successfully on an earlier run but a later July 2 deployment attempt failed after build; security audit on 2026-08-31 failed with **35 advisories (2 critical, 27 high, 5 moderate, 1 low)**. No fresh dependency audit, Lighthouse run, local browser run, or production status certification is claimed. [CI](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/28585405339) · [Pages success](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/28585405304) · [Pages later failure](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/28586292162) · [Audit](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/33391514956).
+**Current verified main:** `ded33dcc0564bc53df209bca4b2f2fd5687b0167`, after [documentation PR #1 MERGED](https://github.com/Rofikali/Portfolio-Rofik/pull/1). [Main CI PASS](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44060103176) and [Pages deploy PASS](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44060103149). Do not redo DOC-001.
 
 ## NOW / NEXT / LATER
 
-| Lane | ID / state at proposal time | Smallest next action | Acceptance / stop condition |
-| --- | --- | --- | --- |
-| **NOW** | DOC-001 — **PR_OPEN / CI_PENDING (draft [#1](https://github.com/Rofikali/Portfolio-Rofik/pull/1))** | Adapt IMGENGINE-style AGENTS/skills/next/readmes/HLD/LLD/patterns/DSA/security/a11y/SEO/finance to portfolio | Reviewable docs diff; source links accurate; exact PR/CI evidence added after available; no runtime/production claims |
-| **NEXT P0** | SEC-001 — **READY after DOC-001 review** | Triage and fix current dependency advisories in isolated PR | Fresh `pnpm audit` and compatible update + test/typecheck/generate evidence; never hide findings |
-| **NEXT P1** | CICD-001 — **PLANNED** | Review Pages trigger scope, subsequent failed deployment and branch protection | One guarded production deployment path; failure explained; no unauthorized merge/deploy |
-| **NEXT P1** | TEST-001 — **PLANNED** | Replace arithmetic smoke as meaningful gate; cover theme, route, content and search | Focused Vitest plus Playwright critical journeys; real head-SHA checks |
-| **NEXT P1** | SEARCH-001 — **PLANNED** | Search projects and case studies as well as documentation | Query returns relevant items across three types; empty/no-match states and URL tests |
-| **NEXT P1** | CONTENT-001 — **PLANNED** | Truth-check experience/skill percentages and project proof | Owner-verified claims; links/sitemap; no invented project production status |
-| **NEXT P1** | PERF-A11Y-001 — **PLANNED** | Optimize oversized images and validate accessible themes | Measured mobile Lighthouse/axe/keyboard and assets; before/after evidence |
-| **LATER P2** | DOC-002 — **PLANNED** | Reconcile empty/overlapping old docs, published metadata, generated sitemap | No duplicate source of truth, missing content, draft leakage or dead route |
-| **LATER P3** | GROWTH-001 — **PLANNED / OWNER DECISION** | Evaluate custom domain or privacy-conscious analytics against real demand | Cost/privacy ADR and owner consent; no added paid subscription by default |
+| Lane | Milestone | Verified state / smallest next action |
+| --- | --- | --- |
+| **NOW P0** | **SEC-001 — PR_OPEN / CI_PENDING ([draft PR #2](https://github.com/Rofikali/Portfolio-Rofik/pull/2))** | Compatible dependency update (Nuxt 4.6.4 / Content 3.16.2 / Vitest 4.1.12 / explicit vue-tsc). [Temporary candidate job PASS](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44063115029) for frozen install, tests, typecheck and generate; `pnpm audit` still reports **1 high Zod + 1 moderate minimatch**. Review isolated PR; do not claim clean audit or production readiness. See [SEC-001 report](portfolio/docs/SEC001_DEPENDENCY_REMEDIATION_2026-11-17.md). |
+| **NEXT P0** | **SEC-002 — PLANNED / BLOCKED BY UPSTREAM-COMPATIBILITY EVIDENCE** | Review transitive `@nuxt/content → zod@3.25.76` (patched advisory >=4.6.6) and minimatch@10.2.6 (patched >=11.0.1), reproduce and fix safely or record owner-approved risk treatment; never suppress scans merely for green CI. |
+| **NEXT P1** | CICD-001 — PLANNED | Restrict production deployment branch, inspect historical failed deploy, request main protection; no automatic policy changes. |
+| **NEXT P1** | TEST-001 — PLANNED | Meaningful Vitest + Playwright for navigation/theme, project pages, generated routes, browser regressions. |
+| **NEXT P1** | SEARCH-001 — PLANNED | Unified searchable projects, case studies and documentation; correct URLs and empty results. |
+| **NEXT P1** | PERF-A11Y-001 — PLANNED | Review Tailwind/PostCSS warning, large project images, keyboard, mobile, light/dark contrast, measured Lighthouse. |
+| **LATER** | CONTENT-001 / DOC-002 / GROWTH-001 — PLANNED | Owner-verified resume and claims; old doc consolidation and sitemap; optional growth only after cost/privacy decision. |
 
-## State vocabulary and transitions
+## Status vocabulary
 
-`PLANNED` = idea only; `READY` = authorized and unblocked; `IN_PROGRESS` = work started; `PR_OPEN/CI_PENDING` = branch published but not verified; `READY_FOR_REVIEW` = required exact-head evidence green; `MERGED` = GitHub verified merge; `RELEASED` = verified live deployment and owner authorization; `BLOCKED` = missing dependency/decision. Additionally use `RECORDED_VERIFIED` for historic tests, `PARTIAL` for incomplete user flow and `HISTORICAL` for superseded docs.
+`PLANNED`, `READY`, `IN_PROGRESS`, `PR_OPEN/CI_PENDING`, `READY_FOR_REVIEW`, `BLOCKED`, `MERGED`, `RELEASED`, plus `PARTIAL`, `RECORDED_VERIFIED` and `HISTORICAL`. A passing build is not a passing security audit; a PR or documentation update is not a public release. Only a GitHub merge SHA proves MERGED.
 
-An agent receiving **"go ahead"** should reconcile this board and work on the next eligible milestone in scope, create a bounded PR when authorized, and stop at approval/merge/release gates. The instruction file itself does not run an agent in the background. **DOC-001 is not MERGED**; after PR #1 checks and owner review, record actual checked head SHA and merge SHA in the next authorized status reconciliation. Do not add numbers for PRs, CI or performance until verifiable.
+## "Go ahead" continuation contract
 
-## Current priority decision
+Check current main, PRs, checks and this board; select the next **eligible** single milestone, do not redo merged work, implement a reviewable small PR, report exact SHA and PASS/FAIL/PENDING/NOT RUN, and stop at protected merge/deploy or cost/secret/personal-data decisions. An agent instruction file is not background automation.
 
-DOC-001 was requested before security remediation. Once its PR is reviewed/merged, SEC-001 is the first technical correction. Confirm the security state is still true on current HEAD when work begins.
+## Evidence and next decision
 
-## Compact milestone report
+DOC-001: [PR #1 merged](https://github.com/Rofikali/Portfolio-Rofik/pull/1), post-merge main `ded33dcc` with passing CI and Pages workflow. SEC-001: [draft PR #2](https://github.com/Rofikali/Portfolio-Rofik/pull/2) and [candidate report](portfolio/docs/SEC001_DEPENDENCY_REMEDIATION_2026-11-17.md), browser visual tests **NOT RUN**, audit **NOT CLEAN**, production deployment **NOT REQUESTED**. Select SEC-002 if compatibility remediation can safely proceed, or CICD-001 after owner review.
 
-- ID / intent / owner-approved boundary
-- Main baseline SHA / branch head SHA / PR
-- Paths changed / acceptance contract
-- Exact commands: PASS, FAIL, NOT RUN, PENDING
-- Security/a11y/SEO/operating-cost risks
-- Decision needed / next milestone after verified merge
-
-More detailed evidence: [status register](portfolio/docs/status-and-evidence.md). Operational recipes: [skills](skills.md).
+For skills and permissions see [AGENTS.md](AGENTS.md), [skills.md](skills.md); for general status and claims see [evidence register](portfolio/docs/status-and-evidence.md).
