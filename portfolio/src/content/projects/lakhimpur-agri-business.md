@@ -40,25 +40,25 @@ createdAt: 2025-01-01
 updatedAt: 2026-01-01
 ---
 
-# Overview
+## Overview
 
 Lakhimpur Agri-Business is a production-oriented business platform for agricultural inventory, farmer records, sales workflows, and operational analytics.
 
 The project is designed as a full-stack system rather than a single-page demo. It emphasizes API boundaries, database design, caching, async event flow, deployment repeatability, and monitoring.
 
-# Problem
+## Problem
 
 Agricultural businesses often manage inventory, farmer relationships, and sales data across spreadsheets or disconnected tools. That creates reporting delays, inconsistent stock records, and weak visibility into operational health.
 
 The engineering problem was to model the business domain clearly enough that inventory, users, analytics, and background workflows can evolve without turning the backend into a tightly coupled controller layer.
 
-# Solution
+## Solution
 
 The solution uses a Nuxt frontend backed by a FastAPI service with PostgreSQL as the system of record. Redis handles hot reads and short-lived operational state, while Kafka is reserved for event-style workflows such as inventory changes, audit trails, and analytics pipelines.
 
 The v0.1 portfolio page documents the architecture and tradeoffs even where the product is still evolving, so reviewers can see both implementation direction and engineering judgment.
 
-# Architecture Diagram
+## Architecture Diagram
 
 ```mermaid
 flowchart LR
@@ -72,7 +72,7 @@ flowchart LR
   Metrics --> Grafana[Grafana Dashboard]
 ```
 
-# Tech Stack
+## Tech Stack
 
 - Nuxt and Vue for the frontend.
 - FastAPI for API development and validation.
@@ -82,7 +82,7 @@ flowchart LR
 - Docker for reproducible local deployment.
 - Prometheus and Grafana for monitoring.
 
-# API Design
+## API Design
 
 The API is organized around business resources:
 
@@ -126,7 +126,7 @@ sequenceDiagram
   API-->>UI: 201 Created
 ```
 
-# Database
+## Database
 
 PostgreSQL is the source of truth. The schema should protect core invariants such as inventory quantities, user ownership, order state, and historical records.
 
@@ -147,7 +147,7 @@ erDiagram
   INVENTORY_ITEM ||--o{ STOCK_MOVEMENT : changes
 ```
 
-# Caching
+## Caching
 
 Redis is used for data that is safe to recompute:
 
@@ -170,7 +170,7 @@ Cache rules:
 - Keep TTLs short for operational dashboards.
 - Invalidate on `InventoryChanged` and `OrderCreated`.
 
-# Messaging
+## Messaging
 
 Kafka is used for asynchronous business events:
 
@@ -181,7 +181,7 @@ Kafka is used for asynchronous business events:
 
 Events allow analytics, audit, notifications, and reporting to evolve without slowing down the transactional request path.
 
-# Deployment
+## Deployment
 
 The target deployment model is Docker-first:
 
@@ -203,7 +203,7 @@ flowchart LR
   Grafana --> Prometheus
 ```
 
-# Monitoring
+## Monitoring
 
 Prometheus should scrape API metrics such as request latency, error rate, cache hits, and background job throughput. Grafana dashboards should answer operational questions rather than show decorative charts.
 
@@ -217,7 +217,7 @@ Metrics to expose:
 - `kafka_consumer_lag`
 - `background_jobs_failed_total`
 
-# Performance
+## Performance
 
 Performance targets:
 
@@ -233,24 +233,24 @@ Performance techniques:
 - Async event processing for analytics.
 - Static frontend assets through Nuxt build output.
 
-# Challenges
+## Challenges
 
 - Preventing analytics requirements from polluting transaction workflows.
 - Designing cache invalidation around business events.
 - Keeping Docker local development close to production assumptions.
 - Avoiding early overengineering while leaving room for async workflows.
 
-# Lessons Learned
+## Lessons Learned
 
 - Clean resource boundaries make APIs easier to evolve.
 - PostgreSQL constraints are part of the application design, not an afterthought.
 - Observability should be planned with the first deployment, not added after failures.
 - Kafka is useful only when events represent meaningful business facts.
 
-# GitHub
+## GitHub
 
 Source code: [Lakhimpur Agri-Business](https://github.com/Rofikali/lakhimpur-agri-business)
 
-# Live Demo
+## Live Demo
 
 The public demo target is planned. For v0.1, the repository README is linked as the live technical preview.
