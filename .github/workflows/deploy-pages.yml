@@ -1,17 +1,17 @@
 name: Deploy Portfolio to GitHub Pages
 
+# Production Pages may be published only from main.
+# A manual workflow_dispatch on another branch runs no build/deploy jobs.
 on:
   push:
     branches:
       - main
-      - master
-      - featured/v2
   workflow_dispatch:
 
+# Default token permission is read-only. Deployment credentials belong only
+# to the deploy job, not to dependency installation or the static build.
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: github-pages
@@ -19,6 +19,9 @@ concurrency:
 
 jobs:
   build:
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -62,6 +65,11 @@ jobs:
           path: portfolio/.output/public
 
   deploy:
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

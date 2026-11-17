@@ -1,36 +1,44 @@
-# CI/CD and Deployment — Verified Workflow Contract
+# CI/CD and Deployment — Portfolio-Rofik
 
-**Main baseline 2026-11-17:** inspected existing workflow YAML, not a proposed new pipeline. Workflows live at repository root in `.github/workflows/`, app workspace is `portfolio/`.
+**Source baseline:** main commit `e9b94a0a9f8273c9f22b8b9b2aaf1e08571d9ca4` (2026-11-17). This page describes the **proposed CICD-001 PR**, not a merged workflow or freshly verified live Pages deployment. Follow [root next.md](../../next.md) for current state.
 
-## Current paths
+## Application pipeline
 
-- `ci.yml`: on PR and push to main, uses Node from `portfolio/.nvmrc` (=22), pnpm 10, frozen lockfile, `pnpm test`, `pnpm typecheck`, `pnpm generate` with `NUXT_APP_BASE_URL=/Portfolio-Rofik/`.
-- `security.yml`: weekly/dispatch, frozen install, `pnpm audit --audit-level high`. Historical Aug 31 result failed with 35 advisories.
-- `deploy-pages.yml`: build/test/typecheck/generate/upload/deploy to Pages, with deploy permissions `pages: write` and `id-token: write`. Currently triggered by pushes to `main`, `master`, **and `featured/v2`** plus manual dispatch. That is a production integrity concern to review in CICD-001.
+- [`ci.yml`](../../.github/workflows/ci.yml): PR/push validation from `portfolio/`; pnpm frozen install, Vitest, `nuxt typecheck`, static generation under `/Portfolio-Rofik/`.
+- [`security.yml`](../../.github/workflows/security.yml): weekly/manual `pnpm audit --audit-level high`. **This security check is not clean** after the merged [SEC-001 PR #2](https://github.com/Rofikali/Portfolio-Rofik/pull/2); one high Zod and one moderate minimatch advisory remain. Do not conflate passing CI with passing audit.
+- [`deploy-pages.yml`](../../.github/workflows/deploy-pages.yml): production static build + artifact upload + GitHub Pages publication. Existing main pipeline succeeded at [run 44064056826](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44064056826).
 
-## Verified historic runs
+## CICD-001: proposed production branch hardening
 
-| Run | Date | Conclusion |
-| --- | --- | --- |
-| [CI](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/28585405339) | 2026-07-02 | SUCCESS |
-| [Pages](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/28585405304) | 2026-07-02 | SUCCESS |
-| [Later Pages](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/28586292162) | 2026-07-02 | FAILED in deploy job after successful build; exact cause not established |
-| [Security audit](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/33391514956) | 2026-08-31 | FAILED on `pnpm audit` |
+**Problem before this PR:** deployment workflow watched `main`, `master`, and `featured/v2`; workflow-level `pages: write` and `id-token: write` were available to build/test/dependency installation as well as deployment. Main was unprotected as of 2026-11-17.
 
-Current default branch `main` was unprotected at audit time. No current live-site check is asserted.
+**Proposed change:**
+1. A push triggers the Pages workflow **only on `main`** (not `master`, `featured/v2` or arbitrary feature branches).
+2. For `workflow_dispatch`, both `build` and `deploy` run only when `github.ref == 'refs/heads/main'`. Manually choosing another branch must not publish its artifact.
+3. Global `GITHUB_TOKEN` gets `contents: read`; the build job also has read-only access. The deploy job alone gets `pages: write` and `id-token: write`, with `contents: read`.
+4. Preserve existing `needs: build`, `github-pages` environment, tests, typecheck, Nuxt generate, artifact upload and deploy actions. Do not change dependency versions, app code, production secrets or pricing.
 
-## Target proposal (not yet implemented)
+**Intended effect:** a feature-branch push cannot directly invoke this workflow's production deployment; an accidental manual run against a feature branch is job-gated. This is defense in depth, **not equivalent to a protected `main`**.
 
-- Protect main, require review and exact required checks; decide whether owner allows self-merge on a single-owner project.
-- Only `main` may trigger production Pages deployment. Use explicit preview environment for feature branches rather than publishing to production.
-- Add meaningful lint/Playwright/links/a11y gates **after they have real implementation**; do not mark them currently running.
-- Apply minimal permissions per job, pinned/maintained trusted GitHub Actions and dependency-update review.
-- Keep deployment artifact provenance and fallback to prior known-good commit; review actual Pages environment state before release claims.
+## Required owner-controlled settings
 
-## Rollback / incident response
+The repository's `main` branch is currently **unprotected**. The owner should configure Settings → Rules → Rulesets/Branch protection (available controls may depend on plan): require pull-request review as appropriate, required exact-head CI, prevent force pushes and deletion, and restrict who can publish. Also configure Settings → Environments → `github-pages` deployment branch restriction to `main` where available. These account settings **have not been changed** by this PR.
 
-Investigate failed job and last deployed SHA first. For a bad release, revert on a reviewed PR and let the approved main pipeline deploy; do not force-push main or publish an unverified previous artifact. For a compromised credential, use documented revocation outside code review.
+**Audit residuals:** Nuxt Content's transitive Zod 3 and minimatch 10 have [published](https://github.com/advisories/GHSA-mrhx-c7xc-m3w5) [advisories](https://github.com/advisories/GHSA-g3hv-75wg-m249); patched versions require major compatibility review. Treat the findings as outstanding SEC-002, rather than disabling audit or forcing a bulk override. Static visitors cannot submit build-time content on this GitHub Pages deployment, but a malicious/unreviewed content contribution can target the build process.
+
+## Verification plan
+
+- Static review: `push.branches == [main]`; root token read-only; build has no Pages write/OIDC; deploy has Pages write/OIDC, `needs: build` and `github-pages` environment; both jobs guard `github.ref`.
+- PR validation: the existing CI still runs pnpm test/typecheck/generate on the PR HEAD; this does not execute a production Pages deploy and does not guarantee workflow permissions are accepted in production.
+- First authorized main merge: inspect resulting Pages action at exact merged SHA for build/deploy PASS; smoke-test generated deep routes and assets. If deployment fails, follow [runbook](#rollback-and-known-history) rather than marking complete.
+- Optional: test manual dispatch on a non-main ref only with owner approval, and confirm **skipped** jobs (not actual deployment).
+
+## Rollback and known history
+
+A [July 2 deploy job](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/28586292162) failed even though the preceding build succeeded; its root cause is not established. Later [Nov 17 Pages run](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44064056826) passed, so there is no evidence that the historical failure is currently recurring. Do not fabricate a root-cause fix.
+
+If the new workflow prevents valid main deployment, revert the guarded workflow via a reviewed PR, confirm appropriate token/environment permissions, rerun a controlled main deployment and inspect the artifact. Never force push or bypass security checks simply to get a green result.
 
 ## Definition of Done
 
-Exact HEAD checks run, expected Pages paths generated, vulnerability state triaged, owner approves merge/release, deployment succeeds and public pages are checked. The documentation-only DOC-001 PR does not modify these workflows.
+Exact-head PR CI green; static workflow policy correct; owner approval; merge verified; post-merge Pages deploy and site smoke verified. **Before merge, this proposal is only a PR, not a deployed protection.**
