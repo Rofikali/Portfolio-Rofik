@@ -32,6 +32,8 @@ interface SearchSources {
   documents: readonly DocumentationItem[]
 }
 
+const kindOrder: Record<SearchKind, number> = { projects: 0, 'case-studies': 1, docs: 2 }
+
 const safeSegment = (segment: string): string | null => {
   // URL segments are encoded separately; reject separators, traversal and query fragments.
   return /^(?=.{1,120}$)[\p{L}\p{N}][\p{L}\p{N}-]*$/u.test(segment)
@@ -112,8 +114,8 @@ export const searchPortfolio = (
   })
     .filter(({ score }) => score >= 0)
     .sort((a, b) => b.score - a.score
+      || kindOrder[a.entry.kind] - kindOrder[b.entry.kind]
       || a.entry.title.localeCompare(b.entry.title)
-      || a.entry.kind.localeCompare(b.entry.kind)
       || a.entry.href.localeCompare(b.entry.href))
     .slice(0, max)
     .map(({ entry }) => entry)
