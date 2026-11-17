@@ -1,5 +1,8 @@
 # SEC-001 — Dependency Security Remediation Evidence (2026-11-17)
 
+> **2026-11-17 reconciliation:** [PR #2 was MERGED](https://github.com/Rofikali/Portfolio-Rofik/pull/2) to main as part of the dependency refresh. Post-merge [CI](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44064056714) and [Pages](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44064056826) succeeded at `e9b94a0a9f8273c9f22b8b9b2aaf1e08571d9ca4`. **One HIGH Zod and one MODERATE minimatch audit finding remain unresolved.** The candidate evidence below is historical; references to an unmerged PR/undelivered release describe the original experiment, **not the present repository state**. Follow [next.md](../../next.md) for current SEC-002 priority.
+
+
 **State:** Partial security improvement candidate on a feature branch, **NOT** a clean security audit, merge, production deploy or risk acceptance. Changes in this PR are for a static portfolio, not IMGENGINE runtime. Base main SHA: `ded33dcc0564bc53df209bca4b2f2fd5687b0167`.
 
 ## Exact GitHub Actions candidate

@@ -30,7 +30,7 @@ The adapter boundary is partially applied: some routes and the featured project 
 
 ## Documentation navigation
 
-[Root AGENTS](../AGENTS.md) · [Live board](../next.md) · [Skill recipes](../skills.md) · [HLD](docs/hld.md) · [LLD](docs/lld.md) · [Patterns](docs/design-patterns.md) · [DSA](docs/dsa-algorithms.md) · [Testing](docs/15-testing-strategy.md) · [Security](docs/security-threat-model.md) · [Product/finance](docs/product-strategy-and-unit-economics.md).
+[Root AGENTS](../AGENTS.md) · [Contributing](CONTRIBUTING.md) · [Live board](../next.md) · [Skill recipes](../skills.md) · [HLD](docs/hld.md) · [LLD](docs/lld.md) · [Patterns](docs/design-patterns.md) · [DSA](docs/dsa-algorithms.md) · [Testing](docs/15-testing-strategy.md) · [Security](docs/security-threat-model.md) · [Product/finance](docs/product-strategy-and-unit-economics.md) · [Management governance](docs/operating-governance.md) · [Release checklist](docs/Production%20Readiness%20Checklist.md) · [ADR decisions](adr/0001-use-nuxt.md).
 
 ## Evidence and publication
 
