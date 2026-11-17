@@ -44,7 +44,7 @@ Apply [seven-level review](portfolio/docs/seven-level-engineering-model.md) prop
 ## Generated milestone state
 
 <!-- docs-sync:begin -->
-**NOW:** SEARCH-001 (READY). **NEXT:** TEST-003, PERF-A11Y-001.
+**NOW:** SEARCH-001 (IN_PROGRESS). **NEXT:** TEST-003, PERF-A11Y-001.
 
 Every substantive app/test/dependency/workflow milestone MUST update `docs/engineering-state.json`, then run `node scripts/docs-sync.mjs --write` and `--check`. CI rejects stale generated blocks or a relevant code PR that omits the manifest. Generated sections of `next.md`, `AGENTS.md`, `skills.md`, both READMEs and the evidence register are **not hand-edited**. Source-specific HLD/LLD/ADR/security/test docs still require human engineering judgment.
 

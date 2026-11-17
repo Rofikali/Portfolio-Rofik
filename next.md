@@ -10,7 +10,7 @@ Generated status from [docs/engineering-state.json](docs/engineering-state.json)
 ## NOW / NEXT / BLOCKED / LATER
 | Milestone | Work | State | Next action / limitation | PR |
 | --- | --- | --- | --- | --- |
-| SEARCH-001 | Unified published content search | **READY** | Projects, cases and published docs with path/empty/Unicode tests. | — |
+| SEARCH-001 | Unified published content search | **IN_PROGRESS** | Index projects, case studies and Published-only docs; type-scoped ranking, Unicode query, safe links, Vitest and Chromium regression. | [PR #9](https://github.com/Rofikali/Portfolio-Rofik/pull/9) |
 | TEST-003 | Browser accessibility coverage | **PLANNED** | Keyboard, focus, contrast, generated links and measured browser checks. | — |
 | PERF-A11Y-001 | CSS and performance | **PLANNED** | Tailwind/PostCSS warning, mobile contrast, image size and Lighthouse. | — |
 | SEC-002 | Transitive dependency advisories | **BLOCKED** | 1 high Zod and 1 moderate minimatch advisory; safe compatible remediation unverified. | — |

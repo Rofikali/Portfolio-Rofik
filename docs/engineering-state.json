@@ -92,9 +92,9 @@
       "id": "SEARCH-001",
       "title": "Unified published content search",
       "lane": "NOW",
-      "state": "READY",
-      "pr": null,
-      "summary": "Projects, cases and published docs with path/empty/Unicode tests."
+      "state": "IN_PROGRESS",
+      "pr": 9,
+      "summary": "Index projects, case studies and Published-only docs; type-scoped ranking, Unicode query, safe links, Vitest and Chromium regression."
     },
     {
       "id": "TEST-003",
