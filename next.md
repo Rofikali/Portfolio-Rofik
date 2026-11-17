@@ -8,7 +8,7 @@
 
 | Lane | Milestone and status | Scope / acceptance |
 | --- | --- | --- |
-| **NOW P1** | **TEST-001 — IN_PROGRESS / PR CHECKS REQUIRED** | Replace arithmetic smoke with documentation publication/related/nav route tests; fail-closed direct document lookup and detail route query; optional Playwright browser source (NOT RUN unless browser genuinely executed). Verify exact PR-head tests/typecheck/generate. [Test strategy](portfolio/docs/15-testing-strategy.md). |
+| **NOW P1** | **TEST-001 — PR_OPEN / CI_PENDING ([draft PR #5](https://github.com/Rofikali/Portfolio-Rofik/pull/5))** | Replace arithmetic smoke with documentation publication/related/nav route tests; fail-closed direct document lookup and detail route query; optional Playwright browser source (NOT RUN unless browser genuinely executed). Verify exact PR-head tests/typecheck/generate. [Test strategy](portfolio/docs/15-testing-strategy.md). |
 | **BLOCKED P0** | **SEC-002 — OPEN HIGH RISK** | 1 high transitive `zod@3.25.76` and 1 moderate `minimatch@10.2.6` from latest isolated audit after SEC-001. Safe fix needs upstream compatibility or a bounded experimental PR. Do not force overrides or suppress audit. |
 | **OWNER SETTINGS** | **BRANCH-001 — NOT IMPLEMENTED** | Main remained unprotected at API check. Owner to configure PR/required CI and Pages environment restrictions. |
 | **NEXT P1** | **TEST-002 — PLANNED** | Promote cost-measured Playwright/keyboard/asset smoke to an automated Docker/browser job, after browser dependencies and flaky paths are verified. |
