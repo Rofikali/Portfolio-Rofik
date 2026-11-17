@@ -8,7 +8,7 @@
 
 | Priority | ID / current proposal state | Smallest next eligible action |
 | --- | --- | --- |
-| **NOW P1** | **CICD-001 — IN_PROGRESS / PR PROPOSED** | Restrict GitHub Pages push trigger to `main`, guard manual dispatch against non-main refs, grant Pages/OIDC write only to deploy job. Review [CI/CD policy](portfolio/docs/cicd.md); verify PR CI on exact SHA and require owner approval before merge/release. |
+| **NOW P1** | **CICD-001 — PR_OPEN / CI_PENDING ([draft PR #3](https://github.com/Rofikali/Portfolio-Rofik/pull/3))** | Restrict GitHub Pages push trigger to `main`, guard manual dispatch against non-main refs, grant Pages/OIDC write only to deploy job. Review [CI/CD policy](portfolio/docs/cicd.md); verify PR CI on exact SHA and require owner approval before merge/release. |
 | **BLOCKED P0 security** | **SEC-002 — PATCH BLOCKED / NOT ACCEPTED** | Fresh audit after SEC-001 reported **one HIGH `zod@3.25.76`** and **one MODERATE `minimatch@10.2.6`** via Nuxt Content. Patched versions [Zod >=4.6.6](https://github.com/advisories/GHSA-mrhx-c7xc-m3w5), [minimatch >=11.0.1](https://github.com/advisories/GHSA-g3hv-75wg-m249) cross major-version bounds; Nuxt Content's public schema docs describe Zod v4, but internal transitive compatibility needs separately reviewed experiment. No silent override or vulnerability waiver. |
 | **NEXT P1 owner setting** | **BRANCH-001 — OWNER APPROVAL / NOT DONE** | Main is not protected (verified 2026-11-17). Configure appropriate GitHub branch rules and `github-pages` environment restrictions; workflows alone cannot prevent direct writes to main. |
 | **NEXT P1 testing** | **TEST-001 — PLANNED** | Meaningful unit + Playwright browser tests: navigation, theme, static routes, search, contrast and project images. |
