@@ -1,149 +1,24 @@
-# Release Management
+# Release Management — Static Portfolio
 
-## Purpose
+**Canonical source:** [deployment and CI](cicd.md); [release checklist](Production%20Readiness%20Checklist.md); [current milestones](../../next.md). No continuous backend service or commercial product API is deployed by this repo.
 
-Provide predictable and repeatable releases.
+## What is a release?
 
----
+A release is a reviewed exact revision successfully built and published to GitHub Pages **and verified as serving the intended content**. A passing test PR, build or a GitHub merge alone is not a release. Semantic version labels are optional for this continuous static site; a Git commit SHA is the operational version of record.
 
-## Release Lifecycle
+## Sequence
 
-Development
+1. Confirm approved scope, tracked regression tests, accessibility/content/security implications, and residual risks.
+2. Review small PR with relevant exact-head CI. Security audit and release blocker treatment are separate from CI being green.
+3. Obtain required owner/reviewer approval before merge.
+4. Main-only Pages workflow generates `portfolio/.output/public` and publishes; capture merge SHA, workflow run and deployed URL.
+5. Perform representative desktop/mobile smoke, broken assets and route/SEO/keyboard checks; record which were actually performed.
+6. Reconcile [next.md](../../next.md) and risk register in a *subsequent authorized PR/checkpoint* if the merge SHA only becomes available after merging.
 
-↓
+## Rollback
 
-Testing
+If production regresses, stop further publication, identify exact bad SHA and damage, revert with a reviewed PR, wait for main CI and Pages success, then smoke test. Do not force-push or manually deploy an unverified artifact.
 
-↓
+## Current evidence
 
-Review
-
-↓
-
-Merge
-
-↓
-
-Deployment
-
-↓
-
-Verification
-
----
-
-## Versioning
-
-Semantic Versioning
-
-Format:
-
-MAJOR.MINOR.PATCH
-
-Example:
-
-1.0.0
-
----
-
-## Version Rules
-
-MAJOR
-
-Breaking changes.
-
-Example:
-
-Large architecture changes.
-
----
-
-MINOR
-
-New features.
-
-Example:
-
-Add blog system.
-
----
-
-PATCH
-
-Bug fixes.
-
-Example:
-
-Fix mobile navigation.
-
----
-
-## Release Process
-
-Step 1
-
-Merge into main.
-
-Step 2
-
-CI Pipeline Executes.
-
-Step 3
-
-Build Static Site.
-
-Step 4
-
-Deploy GitHub Pages.
-
-Step 5
-
-Verify Deployment.
-
----
-
-## Rollback Process
-
-Identify bad release.
-
-Git revert.
-
-Push fix.
-
-Automatic redeploy.
-
----
-
-## Release Checklist
-
-Before Release:
-
-✓ Tests passing
-
-✓ Build passing
-
-✓ Documentation updated
-
-✓ ADR updated
-
-✓ No security warnings
-
-✓ Lighthouse score validated
-
----
-
-## Definition of Production Ready
-
-A feature is production ready when:
-
-✓ Requirements satisfied
-
-✓ Tests added
-
-✓ Documentation updated
-
-✓ Code reviewed
-
-✓ CI passing
-
-✓ Deployment successful
+The post-PR #3 [main CI](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44065624587) and [Pages deploy](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44065624434) succeeded at `2ff1e48e`. This is **not** evidence of a clean dependency audit, measured Lighthouse score, every browser journey or branch protection. Consult [risks](29-risk-register.md) before a new release claim.
