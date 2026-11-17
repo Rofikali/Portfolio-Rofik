@@ -15,6 +15,8 @@ test('homepage and a project detail are reachable under the Pages base path', as
 })
 
 test('theme choice persists across reloads', async ({ page }) => {
+  // Make the initial theme deterministic regardless of CI/browser OS preference.
+  await page.emulateMedia({ colorScheme: 'dark' })
   await page.goto('./')
   await page.getByRole('button', { name: 'Switch to light background' }).click()
   await expect(page.locator('html')).toHaveClass(/\blight\b/)
