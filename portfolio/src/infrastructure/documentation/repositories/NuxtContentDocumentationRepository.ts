@@ -13,11 +13,23 @@ export class NuxtContentDocumentationRepository implements DocumentationReposito
   }
 
   async getBySlug(slug: string): Promise<Documentation | null> {
+    if (!slug.trim()) {
+      return null
+    }
+
+    // A detail route must not expose drafts that the listing intentionally hides.
     const document = await queryCollection('documentation')
       .where('slug', '=', slug)
+      .where('status', '=', 'Published')
       .first()
 
-    return document ? mapContentToDocumentation(document) : null
+    if (!document) {
+      return null
+    }
+
+    const mapped = mapContentToDocumentation(document)
+    // Fail closed even if the underlying adapter returns malformed metadata.
+    return mapped.status === 'Published' ? mapped : null
   }
 
   async getByCategory(category: string): Promise<Documentation[]> {

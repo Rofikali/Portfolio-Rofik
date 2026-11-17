@@ -1,27 +1,40 @@
-# Testing Strategy — Reality and Target Gates
+# Testing Strategy — Implemented and Next Gates
 
-**Current source:** two Vitest test files: `tests/smoke.test.ts` (arithmetic only) and `tests/unit/case-study-content.test.ts` (required frontmatter labels). Existing GitHub CI successfully invoked `pnpm test` on July 2, 2026, but that does **not** establish behavior coverage or 80% code coverage. Playwright is a dependency, not a committed E2E suite.
+**Verified baseline:** main at `e6575b727600dcbcf4ca4630bb7689a82ef387ac` on 2026-11-17; [post-merge CI](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44068305034) and [Pages](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44068305039) passed. This proposed TEST-001 branch updates source/tests; results are not PASS until verified at exact PR HEAD.
 
-## Test levels
+## TEST-001 scope
 
-| Level | Proposed targets | Requirement |
-| --- | --- | --- |
-| Unit | URL builder, slug normalizer, Published predicate, content mapper, search normalization/ranking, theme logic | Pure/isolated Vitest tests with edge cases |
-| Component | Navbar, theme control, project cards, search result/empty state | Vue Test Utils or agreed Vue test approach, keyboard and state |
-| Integration | Nuxt Content adapters, projects/case studies/docs, dynamic route 404, sitemap/link integrity | Real fixtures and schema/parsing tests |
-| E2E | homepage → project, case-study, search, theme persist, resume, mobile menu, missing route | Playwright with actual browser and generated/deployed base path |
-| Accessibility | Focus, keyboard, contrast, reduced motion, labels, headings, 320px layout | axe plus manual checks; WCAG 2.2 AA target |
-| Security | Dependency advisory triage, untrusted URLs/content, public file review and branch/workflow rules | Current audit + security review |
-| Performance | LCP/CLS/INP and image/bundle budgets | Measured lab/field evidence, never fake pass |
+- `tests/unit/documentation-repository.test.ts`: focused Vitest tests for Published-only listing/detail, missing/invalid status fail-closed, unknown/blank slug, category filter, related links and max-4 cap. The implementation now checks `status = Published` in direct lookup and rejects malformed status. Engineering and system-design detail pages also query Published-only content.
+- `tests/unit/navigation-routes.test.ts`: real navigation destinations must exist in the Nuxt page tree; link paths/labels must be unique and local.
+- `tests/smoke.test.ts`: replace arithmetic with static source/CI base-path assertions.
+- `e2e/portfolio.e2e.ts` + `playwright.config.ts`: optional generated-site browser smoke for home/projects, theme persistence and narrow-screen navigation. It requires a browser binary and a generated `/Portfolio-Rofik/` static artifact. **Not part of the default CI gate** until the runner and browser results are measured.
+- Existing `tests/unit/case-study-content.test.ts` remains a frontmatter presence check; it does not prove all business claims/content correctness.
 
-## Target quality gate
+## Commands and safe scopes
 
-On code changes: `pnpm test`, `pnpm typecheck`, `NUXT_APP_BASE_URL=/Portfolio-Rofik/ pnpm generate` plus affected browser checks. After meaningfully implementing test suites, decide what runs as required CI; do not mark existing CI as running missing tools.
+From `portfolio/`, with Node 22 and pnpm 10:
 
-Content-specific cases: missing frontmatter, duplicate slug, invalid URL, unpublished doc, invalid category, unknown linked target, nonexistent image, bad heading anchor, multilingual search and missing route. Security critical/high advisory findings must be explicitly triaged.
+~~~sh
+pnpm install --frozen-lockfile
+pnpm test
+pnpm typecheck
+NUXT_APP_BASE_URL=/Portfolio-Rofik/ pnpm generate
+~~~
 
-Coverage is a quality signal, not a substitute for user-journey proof. No 80% claim without an actual coverage report.
+Optional browser check **after** generation, using your Linux/Docker environment (do not install browsers on the Windows host):
 
-## Docs-only verification
+~~~sh
+pnpm exec playwright install chromium
+pnpm test:e2e
+~~~
 
-Review paths, links, facts and consistency. Report runtime tests as **NOT RUN** if none were performed; CI may later validate the exact PR SHA. See [change-scoped policy](change-scoped-verification.md).
+Playwright starts `pnpm preview` on localhost:4173, points to the repository base path, and uses local Chromium. Installing a browser is a one-time network/download and is **not** done by normal CI; do not claim tests passed merely because the source exists. Make the Docker CI image/browser installation explicit in a follow-up PR after cost/time validation.
+
+## Verification promises and remaining gaps
+
+- This first slice covers important **unit/access-control regression risks**. It does **not** prove all published documents are prerendered, anonymous direct URLs cannot be indexed, actual mobile contrast, cross-browser keyboard/axe, asset weight or Lighthouse/INP targets.
+- Publishing source Markdown as part of a static GitHub repository means filtering application routes is **not** a confidentiality mechanism for raw Markdown already committed publicly. **Never commit confidential drafts.**
+- A successful `nuxt generate` does not mean a browser test ran. Record each separately as PASS, FAIL, NOT RUN, PENDING at exact SHA.
+- Next slices: meaningful content/route generation assertions, unified search tests after SEARCH-001, aria/keyboard/a11y, broken assets, and measured mobile Lighthouse. Keep PRs small.
+
+[Root board](../../next.md) · [Release checklist](Production%20Readiness%20Checklist.md) · [Security reporting](../../SECURITY.md) · [Evidence register](status-and-evidence.md).
