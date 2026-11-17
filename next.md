@@ -8,7 +8,7 @@
 
 | Lane | Milestone | Verified state / smallest next action |
 | --- | --- | --- |
-| **NOW P0** | **SEC-001 — IN_PROGRESS, candidate tested / PR CHECKS REQUIRED** | Compatible dependency update (Nuxt 4.6.4 / Content 3.16.2 / Vitest 4.1.12 / explicit vue-tsc). [Temporary candidate job PASS](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44063115029) for frozen install, tests, typecheck and generate; `pnpm audit` still reports **1 high Zod + 1 moderate minimatch**. Review isolated PR; do not claim clean audit or production readiness. See [SEC-001 report](portfolio/docs/SEC001_DEPENDENCY_REMEDIATION_2026-11-17.md). |
+| **NOW P0** | **SEC-001 — PR_OPEN / CI_PENDING ([draft PR #2](https://github.com/Rofikali/Portfolio-Rofik/pull/2))** | Compatible dependency update (Nuxt 4.6.4 / Content 3.16.2 / Vitest 4.1.12 / explicit vue-tsc). [Temporary candidate job PASS](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44063115029) for frozen install, tests, typecheck and generate; `pnpm audit` still reports **1 high Zod + 1 moderate minimatch**. Review isolated PR; do not claim clean audit or production readiness. See [SEC-001 report](portfolio/docs/SEC001_DEPENDENCY_REMEDIATION_2026-11-17.md). |
 | **NEXT P0** | **SEC-002 — PLANNED / BLOCKED BY UPSTREAM-COMPATIBILITY EVIDENCE** | Review transitive `@nuxt/content → zod@3.25.76` (patched advisory >=4.6.6) and minimatch@10.2.6 (patched >=11.0.1), reproduce and fix safely or record owner-approved risk treatment; never suppress scans merely for green CI. |
 | **NEXT P1** | CICD-001 — PLANNED | Restrict production deployment branch, inspect historical failed deploy, request main protection; no automatic policy changes. |
 | **NEXT P1** | TEST-001 — PLANNED | Meaningful Vitest + Playwright for navigation/theme, project pages, generated routes, browser regressions. |
@@ -26,6 +26,6 @@ Check current main, PRs, checks and this board; select the next **eligible** sin
 
 ## Evidence and next decision
 
-DOC-001: [PR #1 merged](https://github.com/Rofikali/Portfolio-Rofik/pull/1), post-merge main `ded33dcc` with passing CI and Pages workflow. SEC-001: [candidate report](portfolio/docs/SEC001_DEPENDENCY_REMEDIATION_2026-11-17.md), browser visual tests **NOT RUN**, audit **NOT CLEAN**, production deployment **NOT REQUESTED**. Select SEC-002 if compatibility remediation can safely proceed, or CICD-001 after owner review.
+DOC-001: [PR #1 merged](https://github.com/Rofikali/Portfolio-Rofik/pull/1), post-merge main `ded33dcc` with passing CI and Pages workflow. SEC-001: [draft PR #2](https://github.com/Rofikali/Portfolio-Rofik/pull/2) and [candidate report](portfolio/docs/SEC001_DEPENDENCY_REMEDIATION_2026-11-17.md), browser visual tests **NOT RUN**, audit **NOT CLEAN**, production deployment **NOT REQUESTED**. Select SEC-002 if compatibility remediation can safely proceed, or CICD-001 after owner review.
 
 For skills and permissions see [AGENTS.md](AGENTS.md), [skills.md](skills.md); for general status and claims see [evidence register](portfolio/docs/status-and-evidence.md).
