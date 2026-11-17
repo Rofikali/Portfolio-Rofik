@@ -77,9 +77,9 @@ Use a small PR, follow [AGENTS](AGENTS.md), select milestone from [next](next.md
 <!-- docs-sync:begin -->
 **Verified workflow snapshot (2026-11-17):** main `e76829c25223` · [CI](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44075217503) · [Pages](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44075217337). Workflow completion verified; no full accessibility/security/production-site certificate.
 
-**Active:** DOCSYNC-001 — Automated documentation synchronization (IN_PROGRESS).
+**Active:** SEARCH-001 — Unified published content search (READY).
 
-**Last merged:** DOC-002 [PR #4](https://github.com/Rofikali/Portfolio-Rofik/pull/4) `e6575b727600`; TEST-001 [PR #5](https://github.com/Rofikali/Portfolio-Rofik/pull/5) `f2d54641be2d`; TEST-002 [PR #6](https://github.com/Rofikali/Portfolio-Rofik/pull/6) `e76829c25223`.
+**Last merged:** TEST-001 [PR #5](https://github.com/Rofikali/Portfolio-Rofik/pull/5) `f2d54641be2d`; TEST-002 [PR #6](https://github.com/Rofikali/Portfolio-Rofik/pull/6) `e76829c25223`; DOCSYNC-001 [PR #7](https://github.com/Rofikali/Portfolio-Rofik/pull/7) `c89916c6454d`.
 
 **Unresolved:** SEC-002 — 1 high Zod and 1 moderate minimatch advisory; safe compatible remediation unverified.; BRANCH-001 — Owner-controlled setting: main currently unprotected..
 

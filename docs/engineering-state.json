@@ -66,10 +66,11 @@
     {
       "id": "DOCSYNC-001",
       "title": "Automated documentation synchronization",
-      "lane": "NOW",
-      "state": "IN_PROGRESS",
+      "lane": "DONE",
+      "state": "MERGED",
       "pr": 7,
-      "summary": "Generate milestone status across docs; PR drift gate and reviewed post-merge reconciliation."
+      "summary": "Generate milestone status across docs; PR drift gate and reviewed post-merge reconciliation.",
+      "merge_sha": "c89916c6454d751578201c22dbdfe4c07b9c7cd4"
     },
     {
       "id": "SEC-002",
@@ -90,7 +91,7 @@
     {
       "id": "SEARCH-001",
       "title": "Unified published content search",
-      "lane": "NEXT",
+      "lane": "NOW",
       "state": "READY",
       "pr": null,
       "summary": "Projects, cases and published docs with path/empty/Unicode tests."
