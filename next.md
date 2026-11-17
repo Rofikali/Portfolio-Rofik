@@ -1,31 +1,25 @@
-# Portfolio-Rofik — Live NOW / NEXT / LATER board
+# Portfolio-Rofik — Live NOW / NEXT / LATER
 
-**Updated 2026-11-17 — security update proposal only.** Current GitHub PR/merge/CI evidence overrides this historical snapshot. Any running agent must check open PRs and main SHA before selecting work.
+**Reconciled 2026-11-17.** This board selects one bounded milestone per "go ahead", but GitHub main HEAD / PR / CI evidence takes precedence over historic text. Documentation changes do not run background agents.
 
-**Current verified main:** `ded33dcc0564bc53df209bca4b2f2fd5687b0167`, after [documentation PR #1 MERGED](https://github.com/Rofikali/Portfolio-Rofik/pull/1). [Main CI PASS](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44060103176) and [Pages deploy PASS](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44060103149). Do not redo DOC-001.
+**Verified main baseline:** `e9b94a0a9f8273c9f22b8b9b2aaf1e08571d9ca4`. [DOC-001 PR #1 MERGED](https://github.com/Rofikali/Portfolio-Rofik/pull/1) and [SEC-001 PR #2 MERGED](https://github.com/Rofikali/Portfolio-Rofik/pull/2). Post-merge [CI PASS](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44064056714) and [Pages deployment PASS](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44064056826). No further live-site/browser audit is claimed.
 
 ## NOW / NEXT / LATER
 
-| Lane | Milestone | Verified state / smallest next action |
+| Priority | ID / current proposal state | Smallest next eligible action |
 | --- | --- | --- |
-| **NOW P0** | **SEC-001 — PR_OPEN / CI_PENDING ([draft PR #2](https://github.com/Rofikali/Portfolio-Rofik/pull/2))** | Compatible dependency update (Nuxt 4.6.4 / Content 3.16.2 / Vitest 4.1.12 / explicit vue-tsc). [Temporary candidate job PASS](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44063115029) for frozen install, tests, typecheck and generate; `pnpm audit` still reports **1 high Zod + 1 moderate minimatch**. Review isolated PR; do not claim clean audit or production readiness. See [SEC-001 report](portfolio/docs/SEC001_DEPENDENCY_REMEDIATION_2026-11-17.md). |
-| **NEXT P0** | **SEC-002 — PLANNED / BLOCKED BY UPSTREAM-COMPATIBILITY EVIDENCE** | Review transitive `@nuxt/content → zod@3.25.76` (patched advisory >=4.6.6) and minimatch@10.2.6 (patched >=11.0.1), reproduce and fix safely or record owner-approved risk treatment; never suppress scans merely for green CI. |
-| **NEXT P1** | CICD-001 — PLANNED | Restrict production deployment branch, inspect historical failed deploy, request main protection; no automatic policy changes. |
-| **NEXT P1** | TEST-001 — PLANNED | Meaningful Vitest + Playwright for navigation/theme, project pages, generated routes, browser regressions. |
-| **NEXT P1** | SEARCH-001 — PLANNED | Unified searchable projects, case studies and documentation; correct URLs and empty results. |
-| **NEXT P1** | PERF-A11Y-001 — PLANNED | Review Tailwind/PostCSS warning, large project images, keyboard, mobile, light/dark contrast, measured Lighthouse. |
-| **LATER** | CONTENT-001 / DOC-002 / GROWTH-001 — PLANNED | Owner-verified resume and claims; old doc consolidation and sitemap; optional growth only after cost/privacy decision. |
+| **NOW P1** | **CICD-001 — PR_OPEN / CI_PENDING ([draft PR #3](https://github.com/Rofikali/Portfolio-Rofik/pull/3))** | Restrict GitHub Pages push trigger to `main`, guard manual dispatch against non-main refs, grant Pages/OIDC write only to deploy job. Review [CI/CD policy](portfolio/docs/cicd.md); verify PR CI on exact SHA and require owner approval before merge/release. |
+| **BLOCKED P0 security** | **SEC-002 — PATCH BLOCKED / NOT ACCEPTED** | Fresh audit after SEC-001 reported **one HIGH `zod@3.25.76`** and **one MODERATE `minimatch@10.2.6`** via Nuxt Content. Patched versions [Zod >=4.6.6](https://github.com/advisories/GHSA-mrhx-c7xc-m3w5), [minimatch >=11.0.1](https://github.com/advisories/GHSA-g3hv-75wg-m249) cross major-version bounds; Nuxt Content's public schema docs describe Zod v4, but internal transitive compatibility needs separately reviewed experiment. No silent override or vulnerability waiver. |
+| **NEXT P1 owner setting** | **BRANCH-001 — OWNER APPROVAL / NOT DONE** | Main is not protected (verified 2026-11-17). Configure appropriate GitHub branch rules and `github-pages` environment restrictions; workflows alone cannot prevent direct writes to main. |
+| **NEXT P1 testing** | **TEST-001 — PLANNED** | Meaningful unit + Playwright browser tests: navigation, theme, static routes, search, contrast and project images. |
+| **NEXT P1 experience** | **PERF-A11Y-001 — PLANNED** | Recheck Tailwind nesting warning, asset budgets, mobile light/dark accessibility, performance and actual screenshots. |
+| **NEXT P1 search** | **SEARCH-001 — PLANNED** | Search projects + cases + docs, with correct canonical paths and published-only behavior. |
+| **LATER content** | **CONTENT-001 / DOC-002 — PLANNED** | Owner-verify portfolio/resume claims, deduplicate content taxonomy, validate sitemap and publish status. |
+| **OPTIONAL — DESIGN ONLY** | **WASM-DEMO-01 — IDEA / NO IMPLEMENTATION AUTHORIZATION** | Consider one lazy-loaded Rust/WASM browser demo only if it has a real CPU-bound task and measured benefit. Keep ordinary Nuxt pages JS/TS and static. Benchmark module size, cold start, memory, accessibility and JS fallback first. Not a blocker for any current milestone. |
+| **LATER business** | **GROWTH-001 — OWNER DECISION** | Consider domain/analytics/contact enhancements only with evidence, privacy and cost review. |
 
-## Status vocabulary
+## Continuation rules
 
-`PLANNED`, `READY`, `IN_PROGRESS`, `PR_OPEN/CI_PENDING`, `READY_FOR_REVIEW`, `BLOCKED`, `MERGED`, `RELEASED`, plus `PARTIAL`, `RECORDED_VERIFIED` and `HISTORICAL`. A passing build is not a passing security audit; a PR or documentation update is not a public release. Only a GitHub merge SHA proves MERGED.
+One branch and reviewable PR per milestone. Verify current GitHub evidence, classify status as `PLANNED`, `READY`, `IN_PROGRESS`, `PR_OPEN/CI_PENDING`, `READY_FOR_REVIEW`, `BLOCKED`, `MERGED` or `RELEASED`. Only actual merge/deploy evidence moves those states; no repeating merged work. A security audit failure cannot be converted to PASS by a passing CI build. **Do not merge, force push, deploy, publish private data or spend without the relevant owner authorization.**
 
-## "Go ahead" continuation contract
-
-Check current main, PRs, checks and this board; select the next **eligible** single milestone, do not redo merged work, implement a reviewable small PR, report exact SHA and PASS/FAIL/PENDING/NOT RUN, and stop at protected merge/deploy or cost/secret/personal-data decisions. An agent instruction file is not background automation.
-
-## Evidence and next decision
-
-DOC-001: [PR #1 merged](https://github.com/Rofikali/Portfolio-Rofik/pull/1), post-merge main `ded33dcc` with passing CI and Pages workflow. SEC-001: [draft PR #2](https://github.com/Rofikali/Portfolio-Rofik/pull/2) and [candidate report](portfolio/docs/SEC001_DEPENDENCY_REMEDIATION_2026-11-17.md), browser visual tests **NOT RUN**, audit **NOT CLEAN**, production deployment **NOT REQUESTED**. Select SEC-002 if compatibility remediation can safely proceed, or CICD-001 after owner review.
-
-For skills and permissions see [AGENTS.md](AGENTS.md), [skills.md](skills.md); for general status and claims see [evidence register](portfolio/docs/status-and-evidence.md).
+Compact handoff: milestone ID, base SHA, head SHA, changed paths, tests PASS/FAIL/PENDING/NOT RUN, PR/run links, open risks, owner decision and next action. [AGENTS](AGENTS.md) · [Skills](skills.md) · [Evidence register](portfolio/docs/status-and-evidence.md).
