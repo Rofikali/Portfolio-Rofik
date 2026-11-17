@@ -1,0 +1,59 @@
+name: Browser smoke
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/browser-smoke.yml'
+      - 'portfolio/nuxt.config.ts'
+      - 'portfolio/package.json'
+      - 'portfolio/pnpm-lock.yaml'
+      - 'portfolio/playwright.config.ts'
+      - 'portfolio/e2e/**'
+      - 'portfolio/src/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  chromium:
+    runs-on: ubuntu-24.04
+    # Match the Playwright package lockfile exactly; image provides Chromium
+    # and Linux dependencies. Nothing runs on the developer's Windows host.
+    container:
+      image: mcr.microsoft.com/playwright:v1.65.1-noble
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: portfolio
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: portfolio/.nvmrc
+          cache: pnpm
+          cache-dependency-path: portfolio/pnpm-lock.yaml
+      - name: Install frozen dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Generate static Pages artifact
+        run: pnpm generate
+        env:
+          NUXT_APP_BASE_URL: /Portfolio-Rofik/
+      - name: Run Chromium browser smoke
+        run: pnpm test:e2e
+      - name: Capture failed browser artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chromium-browser-failure
+          retention-days: 3
+          if-no-files-found: ignore
+          path: |
+            portfolio/test-results/
+            portfolio/playwright-report/

@@ -9,12 +9,18 @@ test('homepage and a project detail are reachable under the Pages base path', as
 
   await page.goto('projects')
   await expect(page.getByRole('heading', { name: 'Projects', exact: true })).toBeVisible()
-  await page.locator('article a[href*="/projects/"]').first().click()
+  const projectCard = page.locator('article').first()
+  const projectTitle = (await projectCard.locator('h3').innerText()).trim()
+  await projectCard.locator('a[href*="/projects/"]').first().click()
   await expect(page).toHaveURL(/\/Portfolio-Rofik\/projects\/[^/]+/)
-  await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: projectTitle, exact: true })).toBeVisible()
+  // The Markdown sections must be H2; the Vue page provides the sole H1.
+  await expect(page.locator('h1')).toHaveCount(1)
 })
 
 test('theme choice persists across reloads', async ({ page }) => {
+  // Make the initial theme deterministic regardless of CI/browser OS preference.
+  await page.emulateMedia({ colorScheme: 'dark' })
   await page.goto('./')
   await page.getByRole('button', { name: 'Switch to light background' }).click()
   await expect(page.locator('html')).toHaveClass(/\blight\b/)

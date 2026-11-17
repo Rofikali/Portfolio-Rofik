@@ -22,13 +22,13 @@ createdAt: 2025-01-01
 updatedAt: 2026-07-01
 ---
 
-# Overview
+## Overview
 
 IMGENGINE is a high-performance image processing CLI focused on predictable memory usage, Linux workflows, and CPU-aware optimization.
 
 The project demonstrates systems-level engineering: command contracts, memory layout, buffer ownership, profiling, SIMD hot paths, and release packaging.
 
-# Architecture
+## Architecture
 
 ```mermaid
 flowchart LR
@@ -42,13 +42,13 @@ flowchart LR
   Scalar --> Writer
 ```
 
-# Screenshots
+## Screenshots
 
 Primary project visual: `/images/projects/imgengine.webp`.
 
 Future screenshots should include terminal usage, benchmark output, and before/after image transformations.
 
-# API Design
+## API Design
 
 IMGENGINE is a CLI, so the public API is the command interface.
 
@@ -58,7 +58,7 @@ imgengine batch --input ./images --output ./dist --format webp
 imgengine bench --input sample.jpg --operation resize
 ```
 
-# Database Schema
+## Database Schema
 
 No relational database is required. The persistence boundary is the filesystem.
 
@@ -69,7 +69,7 @@ Filesystem contract:
 - Emit non-zero exit codes for failures.
 - Keep temporary files isolated.
 
-# Caching
+## Caching
 
 Caching is local and memory-oriented:
 
@@ -78,7 +78,7 @@ Caching is local and memory-oriented:
 - Avoid allocation inside inner loops.
 - Add tiled processing for very large images.
 
-# Messaging
+## Messaging
 
 Batch processing is modeled as a local queue.
 
@@ -97,7 +97,7 @@ sequenceDiagram
   end
 ```
 
-# Monitoring
+## Monitoring
 
 CLI observability:
 
@@ -107,7 +107,7 @@ CLI observability:
 - Exit-code summary.
 - Sanitizer and Valgrind checks during development.
 
-# Deployment
+## Deployment
 
 ```mermaid
 flowchart TD
@@ -118,7 +118,7 @@ flowchart TD
   Release --> User[CLI User]
 ```
 
-# Performance
+## Performance
 
 Targets:
 
@@ -127,17 +127,17 @@ Targets:
 - SIMD paths verified against scalar output.
 - Benchmarks documented by CPU, image size, and operation.
 
-# Lessons Learned
+## Lessons Learned
 
 - Profiling decides what should be optimized.
 - SIMD should be isolated behind a small interface.
 - Command-line reliability is part of product quality.
 - Manual memory management needs strict ownership rules.
 
-# GitHub
+## GitHub
 
 Source code: [IMGENGINE](https://github.com/Rofikali/imgengine)
 
-# Live Demo
+## Live Demo
 
 The repository README and CLI usage documentation are the live technical preview for v0.1.

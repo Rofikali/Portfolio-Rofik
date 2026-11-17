@@ -24,13 +24,13 @@ createdAt: 2025-01-01
 updatedAt: 2026-07-01
 ---
 
-# Overview
+## Overview
 
 TikTok Clone is a social video platform project focused on feed browsing, comments, likes, user profiles, and API-driven frontend integration.
 
 The project is documented as a production-style system: the feed is treated as a read model, engagement actions are isolated as writes, and media storage is kept behind a clear boundary.
 
-# Architecture
+## Architecture
 
 ```mermaid
 flowchart LR
@@ -43,13 +43,13 @@ flowchart LR
   API --> Media[Media Storage Boundary]
 ```
 
-# Screenshots
+## Screenshots
 
 Primary project visual: `/images/projects/tiktok.webp`.
 
 Future screenshots should include the feed page, video detail page, creator profile, and mobile layout.
 
-# API Design
+## API Design
 
 ```http
 GET    /api/feed?cursor=...
@@ -62,7 +62,7 @@ POST   /api/videos/{video_id}/comments
 GET    /api/users/{username}
 ```
 
-# Database Schema
+## Database Schema
 
 ```mermaid
 erDiagram
@@ -98,7 +98,7 @@ erDiagram
   }
 ```
 
-# Caching
+## Caching
 
 Redis stores feed slices and video counters.
 
@@ -109,7 +109,7 @@ Redis stores feed slices and video counters.
 
 Cache invalidation is event-driven around upload, delete, like, comment, and profile update workflows.
 
-# Messaging
+## Messaging
 
 Engagement events can move through Kafka in the production version.
 
@@ -127,7 +127,7 @@ sequenceDiagram
   Worker->>Redis: Refresh counters
 ```
 
-# Monitoring
+## Monitoring
 
 Metrics:
 
@@ -138,7 +138,7 @@ Metrics:
 - Database query duration.
 - Redis memory usage.
 
-# Deployment
+## Deployment
 
 ```mermaid
 flowchart TD
@@ -151,7 +151,7 @@ flowchart TD
   CDN --> Runtime
 ```
 
-# Performance
+## Performance
 
 Targets:
 
@@ -161,17 +161,17 @@ Targets:
 - Comment write p95 below 250 ms.
 - First-page cache hit ratio above 80 percent.
 
-# Lessons Learned
+## Lessons Learned
 
 - Feed systems need explicit read-model design.
 - Media bytes and metadata should not live in the same boundary.
 - Redis works best when invalidation rules are tied to product events.
 - Engagement write paths should be independently measurable.
 
-# GitHub
+## GitHub
 
 Source code: [TikTok Clone](https://github.com/Rofikali/TikTokClone)
 
-# Live Demo
+## Live Demo
 
 The repository README is linked as the live technical preview for v0.1.
