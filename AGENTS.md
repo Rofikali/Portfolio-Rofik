@@ -40,3 +40,15 @@ Apply [seven-level review](portfolio/docs/seven-level-engineering-model.md) prop
 ## Documentation index
 
 [README](README.md) · [Current board](next.md) · [Skills](skills.md) · [Architecture HLD](portfolio/docs/hld.md) · [Source LLD](portfolio/docs/lld.md) · [Design patterns](portfolio/docs/design-patterns.md) · [DSA](portfolio/docs/dsa-algorithms.md) · [Security](portfolio/docs/security-threat-model.md) · [Product/finance](portfolio/docs/product-strategy-and-unit-economics.md) · [Evidence](portfolio/docs/status-and-evidence.md).
+
+## Generated milestone state
+
+<!-- docs-sync:begin -->
+**NOW:** DOCSYNC-001 (IN_PROGRESS). **NEXT:** SEARCH-001, TEST-003, PERF-A11Y-001.
+
+Every substantive app/test/dependency/workflow milestone MUST update `docs/engineering-state.json`, then run `node scripts/docs-sync.mjs --write` and `--check`. CI rejects stale generated blocks or a relevant code PR that omits the manifest. Generated sections of `next.md`, `AGENTS.md`, `skills.md`, both READMEs and the evidence register are **not hand-edited**. Source-specific HLD/LLD/ADR/security/test docs still require human engineering judgment.
+
+After a main merge the trusted reconciliation workflow verifies registered PR merge SHAs and can open a **draft docs PR only**; it cannot merge, deploy, accept risk, spend, publish personal data, create fictitious proof or choose licenses. [Full runbook](docs/docs-sync-contract.md).
+
+**Blocked:** SEC-002, BRANCH-001. Passing CI is not proof of clean audit or production readiness.
+<!-- docs-sync:end -->

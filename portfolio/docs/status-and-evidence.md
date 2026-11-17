@@ -52,3 +52,27 @@ Historical screenshots, old architecture docs, commit messages and marketing cop
 **Public content policy:** distinguish (a) architecture illustration, (b) implemented source, (c) recorded test at SHA, (d) current measured production behavior, (e) planned. Mark unverified technology references within portfolio case studies accordingly.
 
 Canonical task priority is [root next.md](../../next.md), not historic `docs/30-roadmap.md` or an old article. Update this register when evidence changes; minimize repeating history across files.
+
+## Generated milestone state
+
+<!-- docs-sync:begin -->
+**Verified workflow snapshot (2026-11-17):** main `e76829c25223` · [CI](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44075217503) · [Pages](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44075217337). Workflow completion verified; no full accessibility/security/production-site certificate.
+
+**Current registered work:** DOCSYNC-001 IN_PROGRESS.
+
+| Verified merge | Pull request | Merge SHA |
+| --- | --- | --- |
+| DOC-001 | [PR #1](https://github.com/Rofikali/Portfolio-Rofik/pull/1) | `ded33dcc0564` |
+| SEC-001 | [PR #2](https://github.com/Rofikali/Portfolio-Rofik/pull/2) | `e9b94a0a9f82` |
+| CICD-001 | [PR #3](https://github.com/Rofikali/Portfolio-Rofik/pull/3) | `2ff1e48e5d9b` |
+| DOC-002 | [PR #4](https://github.com/Rofikali/Portfolio-Rofik/pull/4) | `e6575b727600` |
+| TEST-001 | [PR #5](https://github.com/Rofikali/Portfolio-Rofik/pull/5) | `f2d54641be2d` |
+| TEST-002 | [PR #6](https://github.com/Rofikali/Portfolio-Rofik/pull/6) | `e76829c25223` |
+
+**Open risks (not automatically resolved):**
+- **HIGH SEC-002:** Zod high and minimatch moderate advisories unresolved. A passing build does not clear the audit.
+- **HIGH BRANCH-001:** GitHub main was unprotected at latest verified API check; source workflow guards are not rulesets.
+- **MODERATE PERF-A11Y-001:** Tailwind nesting warning and no complete Lighthouse/WCAG/public-CDN validation.
+
+This generated section supersedes dated historical tables below. A PR merge SHA does not certify production release, browser behavior, security, conversions or financial results. [Runbook](../../docs/docs-sync-contract.md).
+<!-- docs-sync:end -->

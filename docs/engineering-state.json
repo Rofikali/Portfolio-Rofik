@@ -1,0 +1,148 @@
+{
+  "version": 1,
+  "repository": "Rofikali/Portfolio-Rofik",
+  "recorded_on": "2026-11-17",
+  "verified_main": {
+    "sha": "e76829c2522337929961edfa287fde4950cc2792",
+    "ci": "https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44075217503",
+    "pages": "https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44075217337",
+    "note": "Workflow completion verified; no full accessibility/security/production-site certificate."
+  },
+  "milestones": [
+    {
+      "id": "DOC-001",
+      "title": "Engineering playbook",
+      "lane": "DONE",
+      "state": "MERGED",
+      "pr": 1,
+      "merge_sha": "ded33dcc0564bc53df209bca4b2f2fd5687b0167",
+      "summary": "HLD/LLD, seven-level engineering and evidence governance."
+    },
+    {
+      "id": "SEC-001",
+      "title": "Dependency refresh",
+      "lane": "DONE",
+      "state": "MERGED",
+      "pr": 2,
+      "merge_sha": "e9b94a0a9f8273c9f22b8b9b2aaf1e08571d9ca4",
+      "summary": "Nuxt dependency updates; two advisories remain."
+    },
+    {
+      "id": "CICD-001",
+      "title": "Main-only Pages deployment",
+      "lane": "DONE",
+      "state": "MERGED",
+      "pr": 3,
+      "merge_sha": "2ff1e48e5d9b7de2ff27edf36cf367dfb1708d54",
+      "summary": "Deploy only from main and minimize workflow token permissions."
+    },
+    {
+      "id": "DOC-002",
+      "title": "Governance and architecture decisions",
+      "lane": "DONE",
+      "state": "MERGED",
+      "pr": 4,
+      "merge_sha": "e6575b727600dcbcf4ca4630bb7689a82ef387ac",
+      "summary": "Security disclosure, ADRs, release and CA/MBA reviews."
+    },
+    {
+      "id": "TEST-001",
+      "title": "Publication and navigation tests",
+      "lane": "DONE",
+      "state": "MERGED",
+      "pr": 5,
+      "merge_sha": "f2d54641be2de66ae0be720ecf2b3aa912408fd0",
+      "summary": "Published-only documents and focused unit tests."
+    },
+    {
+      "id": "TEST-002",
+      "title": "Chromium browser smoke",
+      "lane": "DONE",
+      "state": "MERGED",
+      "pr": 6,
+      "merge_sha": "e76829c2522337929961edfa287fde4950cc2792",
+      "summary": "Three browser journeys and project heading hierarchy fixes."
+    },
+    {
+      "id": "DOCSYNC-001",
+      "title": "Automated documentation synchronization",
+      "lane": "NOW",
+      "state": "IN_PROGRESS",
+      "pr": null,
+      "summary": "Generate milestone status across docs; PR drift gate and reviewed post-merge reconciliation."
+    },
+    {
+      "id": "SEC-002",
+      "title": "Transitive dependency advisories",
+      "lane": "BLOCKED",
+      "state": "BLOCKED",
+      "pr": null,
+      "summary": "1 high Zod and 1 moderate minimatch advisory; safe compatible remediation unverified."
+    },
+    {
+      "id": "BRANCH-001",
+      "title": "Main branch ruleset",
+      "lane": "BLOCKED",
+      "state": "BLOCKED",
+      "pr": null,
+      "summary": "Owner-controlled setting: main currently unprotected."
+    },
+    {
+      "id": "SEARCH-001",
+      "title": "Unified published content search",
+      "lane": "NEXT",
+      "state": "READY",
+      "pr": null,
+      "summary": "Projects, cases and published docs with path/empty/Unicode tests."
+    },
+    {
+      "id": "TEST-003",
+      "title": "Browser accessibility coverage",
+      "lane": "NEXT",
+      "state": "PLANNED",
+      "pr": null,
+      "summary": "Keyboard, focus, contrast, generated links and measured browser checks."
+    },
+    {
+      "id": "PERF-A11Y-001",
+      "title": "CSS and performance",
+      "lane": "NEXT",
+      "state": "PLANNED",
+      "pr": null,
+      "summary": "Tailwind/PostCSS warning, mobile contrast, image size and Lighthouse."
+    },
+    {
+      "id": "DOC-003",
+      "title": "Content taxonomy and sitemap",
+      "lane": "LATER",
+      "state": "PLANNED",
+      "pr": null,
+      "summary": "Reconcile duplicated content globs and static sitemap evidence."
+    },
+    {
+      "id": "WASM-DEMO-01",
+      "title": "Optional Rust/WASM demo",
+      "lane": "LATER",
+      "state": "DEFERRED",
+      "pr": null,
+      "summary": "Proposed only; benchmark and separate owner decision before code."
+    }
+  ],
+  "risks": [
+    {
+      "id": "SEC-002",
+      "severity": "HIGH",
+      "statement": "Zod high and minimatch moderate advisories unresolved. A passing build does not clear the audit."
+    },
+    {
+      "id": "BRANCH-001",
+      "severity": "HIGH",
+      "statement": "GitHub main was unprotected at latest verified API check; source workflow guards are not rulesets."
+    },
+    {
+      "id": "PERF-A11Y-001",
+      "severity": "MODERATE",
+      "statement": "Tailwind nesting warning and no complete Lighthouse/WCAG/public-CDN validation."
+    }
+  ]
+}

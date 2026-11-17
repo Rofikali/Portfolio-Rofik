@@ -29,6 +29,19 @@ jobs:
           cache: pnpm
           cache-dependency-path: portfolio/pnpm-lock.yaml
 
+      - name: Check generated milestone documentation
+        working-directory: .
+        run: node scripts/docs-sync.mjs --check
+
+      - name: Require manifest changes for implementation PRs
+        if: github.event_name == 'pull_request'
+        working-directory: .
+        env:
+          DOCS_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git fetch --no-tags --depth=1 origin "$DOCS_BASE_SHA"
+          node scripts/check-pr-docs.mjs
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 

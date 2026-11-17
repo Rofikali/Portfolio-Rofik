@@ -1,0 +1,46 @@
+name: Reconcile registered milestone merges
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  propose-reviewed-docs-pr:
+    if: github.repository == 'Rofikali/Portfolio-Rofik' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify registered GitHub PR merges
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/docs-sync.mjs --reconcile
+      - name: Open draft documentation PR only when needed
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- docs/engineering-state.json next.md AGENTS.md skills.md README.md portfolio/README.md portfolio/docs/status-and-evidence.md; then
+            echo 'No milestone drift detected'
+            exit 0
+          fi
+          branch="automation/docs-reconcile-${GITHUB_SHA:0:12}"
+          git switch -c "$branch"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/engineering-state.json next.md AGENTS.md skills.md README.md portfolio/README.md portfolio/docs/status-and-evidence.md
+          git commit -m 'docs(status): reconcile GitHub verified milestone merges'
+          git push -u origin "$branch"
+          gh pr create --base main --head "$branch" --draft --title 'docs(status): verified milestone reconciliation' --body 'Status-only PR generated from registered PRs and GitHub merge SHAs. Human review and checks required; no release or risk acceptance is implied.'
