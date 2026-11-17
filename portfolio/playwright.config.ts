@@ -15,7 +15,7 @@ export default defineConfig({
     screenshot: 'only-on-failure'
   },
   webServer: {
-    command: 'pnpm preview --host 127.0.0.1 --port 4173',
+    command: 'node scripts/serve-generated.mjs',
     url: 'http://127.0.0.1:4173/Portfolio-Rofik/',
     env: {
       NUXT_APP_BASE_URL: '/Portfolio-Rofik/'

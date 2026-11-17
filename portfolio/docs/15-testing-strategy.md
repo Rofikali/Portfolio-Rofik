@@ -28,7 +28,7 @@ pnpm exec playwright install chromium
 pnpm test:e2e
 ~~~
 
-Playwright starts `pnpm preview` on localhost:4173, points to the repository base path, and uses local Chromium. Installing a browser is a one-time network/download and is **not** done by normal CI; do not claim tests passed merely because the source exists. Make the Docker CI image/browser installation explicit in a follow-up PR after cost/time validation.
+Playwright starts `node scripts/serve-generated.mjs` on localhost:4173. It serves only the actual `.output/public` files under the repository base path, returning 404 for missing pages instead of silently substituting a Nuxt server or SPA fallback. Installing a browser is a one-time network/download and is **not** done by normal CI; do not claim tests passed merely because the source exists. Make the Docker CI image/browser installation explicit in a follow-up PR after cost/time validation.
 
 ## Verification promises and remaining gaps
 
@@ -43,7 +43,9 @@ Playwright starts `pnpm preview` on localhost:4173, points to the repository bas
 
 - Workflow [`browser-smoke.yml`](../../.github/workflows/browser-smoke.yml) is scoped to pull requests changing application, dependency, Playwright or workflow files; **doc-only PRs do not launch the heavy browser job**. Manual dispatch is available after the workflow is merged into the default branch.
 - Official pinned `mcr.microsoft.com/playwright:v1.65.1-noble` container matches the committed Playwright package, includes Chromium and system dependencies. Do not install browser binaries again in this container. The Linux CI job never accesses the Windows host.
-- Node 22 + pnpm 10 install from frozen lockfile; static `pnpm generate` under `/Portfolio-Rofik/`; `pnpm preview` serves the generated result at localhost:4173 for `pnpm test:e2e`.
+- Node 22 + pnpm 10 install from frozen lockfile; static `pnpm generate` under `/Portfolio-Rofik/`; the dependency-free `scripts/serve-generated.mjs` serves the generated static artifact at localhost:4173 for `pnpm test:e2e`.
 - Chromium only, one worker on CI and one retry for diagnosis; failed screenshots/traces retained for three days. No user data, production secrets, Pages publishing permissions or paid external browser service. `contents: read` token only.
 - Status is **PROPOSED** until a real browser workflow passes at the exact PR head. A passing test run doesn't prove the live Pages CDN, WebKit/Firefox, a11y, Lighthouse or true route prerender guarantees.
 - Follow-up efficiency: read actual workflow duration on one meaningful PR; avoid browser checks on docs, share existing lockfile cache, and only expand browser matrix if a tested risk justifies the time.
+
+**First TEST-002 attempt:** [Browser job #44070145899](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44070145899) failed before any browser test because `pnpm preview` expected `.output/server/index.mjs`, which static generation does not produce. Corrected by a minimal static-artifact server, not by adding an API or falling back to the Nuxt SSR runtime. That initial failure is retained as evidence; later browser results must be checked at their own SHA.
