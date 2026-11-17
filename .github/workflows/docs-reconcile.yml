@@ -37,6 +37,11 @@ jobs:
             exit 0
           fi
           branch="automation/docs-reconcile-${GITHUB_SHA:0:12}"
+          # Re-running the same main SHA must not push over an existing bot branch.
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null 2>&1; then
+            echo "Docs reconciliation branch already exists; inspect its PR instead of overwriting it"
+            exit 0
+          fi
           git switch -c "$branch"
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'

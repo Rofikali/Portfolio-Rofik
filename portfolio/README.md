@@ -24,7 +24,7 @@ Use Node 22 (`.nvmrc`); CI uses pnpm 10. The generated site is `.output/public`.
 - `src/infrastructure/`: Nuxt Content repositories, mappers, static profile/navigation/skills.
 - `src/presentation/`: Vue components, layout and composables.
 - `src/pages/`: Nuxt routes, including homepage, projects, case studies, architecture, blog, engineering, system design, tags, search and resume.
-- `tests/`: a minimal existing Vitest suite; browser/integration coverage is future work.
+- `tests/`: 16 Vitest tests were verified after TEST-002; the separately scoped Linux Chromium workflow ran 3 browser smoke journeys at PR #6. Broader a11y/Firefox/WebKit/production CDN checks remain future work.
 
 The adapter boundary is partially applied: some routes and the featured project use case query Nuxt Content directly. This is a documented design debt, not an implemented full hexagonal architecture.
 
