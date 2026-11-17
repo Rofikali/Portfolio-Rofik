@@ -58,7 +58,7 @@ Canonical task priority is [root next.md](../../next.md), not historic `docs/30-
 <!-- docs-sync:begin -->
 **Verified workflow snapshot (2026-11-17):** main `e76829c25223` · [CI](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44075217503) · [Pages](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44075217337). Workflow completion verified; no full accessibility/security/production-site certificate.
 
-**Current registered work:** SEARCH-001 READY.
+**Current registered work:** SEARCH-001 IN_PROGRESS.
 
 | Verified merge | Pull request | Merge SHA |
 | --- | --- | --- |
