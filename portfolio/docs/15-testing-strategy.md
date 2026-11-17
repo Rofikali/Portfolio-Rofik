@@ -49,3 +49,11 @@ Playwright starts `node scripts/serve-generated.mjs` on localhost:4173. It serve
 - Follow-up efficiency: read actual workflow duration on one meaningful PR; avoid browser checks on docs, share existing lockfile cache, and only expand browser matrix if a tested risk justifies the time.
 
 **First TEST-002 attempt:** [Browser job #44070145899](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44070145899) failed before any browser test because `pnpm preview` expected `.output/server/index.mjs`, which static generation does not produce. Corrected by a minimal static-artifact server, not by adding an API or falling back to the Nuxt SSR runtime. That initial failure is retained as evidence; later browser results must be checked at their own SHA.
+
+## TEST-002 verified candidate evidence (2026-11-17)
+
+- **First experiment [run 44070145899](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44070145899) FAILED** before starting tests: `pnpm preview` requires `.output/server/index.mjs`, unavailable after static `nuxt generate`. No browser result was claimed for that run.
+- **Corrected Chromium [run 44070503634](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44070503634) PASSED** at `677ef4c259ca725d62ebf6f5a1b9b0a84c50e6d1`, running 3 tests on one worker in approximately **3.0 seconds of test time**: home/project deep-link, persisted theme, and mobile navbar. Static generation, browser container initialization and pnpm installation add additional workflow duration (roughly 71 seconds for the full run by GitHub timestamps).
+- **Standard [CI run 44070503643](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44070503643) PASSED** at the same candidate commit.
+- Root cause was **test harness**, not demonstrated application failure. Instead of silently using SSR fallback, a small dependency-free `scripts/serve-generated.mjs` serves actual generated files under `/Portfolio-Rofik/` and returns 404 for missing assets/routes.
+- This verified candidate is **not automatically the final PR SHA** if this file changes; check final head and both workflows. Exact-head browser PASS demonstrates these three Chromium flows, **not** full WCAG, production Pages CDN, security audit, Firefox/WebKit or all generated dynamic routes.
