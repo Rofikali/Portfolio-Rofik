@@ -81,5 +81,5 @@
 4. After merge, a main-only bot **proposes** a draft status PR when registered PR merge facts changed; human must review, verify checks and approve merge/deploy.
 5. HLD/LLD/ADRs, a11y, security remediation and CA/MBA/management claims still require independent evidence and relevant tests.
 
-**NOW:** DOCSYNC-001 — Automated documentation synchronization. **NEXT:** SEARCH-001, TEST-003, PERF-A11Y-001. [Runbook](docs/docs-sync-contract.md).
+**NOW:** SEARCH-001 — Unified published content search. **NEXT:** TEST-003, PERF-A11Y-001. [Runbook](docs/docs-sync-contract.md).
 <!-- docs-sync:end -->
