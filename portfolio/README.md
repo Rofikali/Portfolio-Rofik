@@ -1,120 +1,46 @@
-# Rofik Engineering Portfolio
+# Portfolio application — Nuxt static site
 
-Production-style engineering portfolio and knowledge platform built with Nuxt, Nuxt Content, Tailwind CSS, and static generation for GitHub Pages.
+This is the implementation workspace for [Portfolio-Rofik](../README.md), a portfolio and engineering knowledge platform. The app is **Nuxt 4 + Vue 3 + TypeScript + Nuxt Content 3 + Tailwind CSS**, statically generated to GitHub Pages. It is not an IMGENGINE backend and does not require a server database, Rust, C, Kafka or Redis.
 
-This repository is intentionally more than a visual portfolio. It documents how I design systems: architecture decisions, high-level designs, low-level designs, system design case studies, engineering patterns, observability, performance, security, and real project breakdowns.
+## Development and verification
 
-## Purpose
-
-The site answers one question:
-
-Can this engineer design, document, and communicate production software systems?
-
-It includes:
-
-- Project pages with architecture, API design, database schema, caching, messaging, deployment, monitoring, performance, and lessons learned.
-- Case studies for real projects such as Lakhimpur Agri Business, TikTok Clone, and IMGENGINE.
-- Architecture documentation with HLD, LLD, ADRs, C4-style diagrams, sequence diagrams, and tradeoff analysis.
-- System design documents for Instagram Feed, URL Shortener, Realtime Chat, and Notification Service.
-- Engineering articles covering repository pattern, Redis, Kafka, JWT, Docker networking, PostgreSQL scaling, CQRS, observability, and Lighthouse performance.
-
-## Tech Stack
-
-- Nuxt 4
-- Vue 3
-- Nuxt Content
-- Tailwind CSS
-- TypeScript
-- Vitest
-- GitHub Pages static hosting
-
-## Architecture
-
-```mermaid
-flowchart LR
-  Content[Markdown Content] --> NuxtContent[Nuxt Content]
-  NuxtContent --> UseCases[Application Use Cases]
-  UseCases --> Pages[Nuxt Pages]
-  Pages --> Static[Static Output]
-  Static --> PagesHost[GitHub Pages]
-```
-
-The project follows a clean, documentation-first structure:
-
-- `src/content` stores projects, case studies, architecture, and documentation.
-- `src/domain` defines domain types and repository contracts.
-- `src/application` contains use cases.
-- `src/infrastructure` adapts Nuxt Content into application repositories.
-- `src/presentation` contains UI components, layouts, and composables.
-- `src/pages` defines static routes.
-
-## Commands
-
-```bash
-pnpm install
+~~~sh
+corepack enable
+pnpm install --frozen-lockfile
 pnpm dev
 pnpm test
 pnpm typecheck
-pnpm generate
-```
-
-## Deployment
-
-Static generation emits the deployable site to `.output/public`.
-
-For GitHub Pages under `Rofikali/Portfolio-Rofik`, generate with:
-
-```bash
 NUXT_APP_BASE_URL=/Portfolio-Rofik/ pnpm generate
-```
+~~~
 
-## Quality Gates
+Use Node 22 (`.nvmrc`); CI uses pnpm 10. The generated site is `.output/public`. Root workflows implement test, security scan and Pages publish. Historical successful checks are not substitutes for fresh checks on the proposed SHA.
 
-Before deployment:
+## Source layout
 
-```bash
-pnpm test
-pnpm typecheck
-NUXT_APP_BASE_URL=/Portfolio-Rofik/ pnpm generate
-```
+- `src/content/`: Markdown project, case-study, documentation, architecture and blog content.
+- `content.config.ts`: Zod schemas and Nuxt Content collection declarations.
+- `src/domain/`: framework-light types, entities and repository interfaces.
+- `src/application/`: content use cases.
+- `src/infrastructure/`: Nuxt Content repositories, mappers, static profile/navigation/skills.
+- `src/presentation/`: Vue components, layout and composables.
+- `src/pages/`: Nuxt routes, including homepage, projects, case studies, architecture, blog, engineering, system design, tags, search and resume.
+- `tests/`: a minimal existing Vitest suite; browser/integration coverage is future work.
 
-Target Lighthouse scores:
+The adapter boundary is partially applied: some routes and the featured project use case query Nuxt Content directly. This is a documented design debt, not an implemented full hexagonal architecture.
 
-- Performance: 95+
-- Accessibility: 95+
-- SEO: 100
-- Best Practices: 100
+## Documentation navigation
 
-## Content Standards
+[Root AGENTS](../AGENTS.md) · [Live board](../next.md) · [Skill recipes](../skills.md) · [HLD](docs/hld.md) · [LLD](docs/lld.md) · [Patterns](docs/design-patterns.md) · [DSA](docs/dsa-algorithms.md) · [Testing](docs/15-testing-strategy.md) · [Security](docs/security-threat-model.md) · [Product/finance](docs/product-strategy-and-unit-economics.md).
 
-Every serious project page should include:
+## Evidence and publication
 
-- Hero
-- Overview
-- Architecture
-- Screenshots
-- API design
-- Database schema
-- Caching
-- Messaging
-- Monitoring
-- Deployment
-- Performance
-- Lessons learned
-- GitHub link
+Portfolio case studies may include *designed* API schemas, caching or observability architecture. Tag whether a capability is implemented, recorded-tested, partial, planned or illustrative; do not confuse a diagram with deployed infrastructure. Review personal experience/resume claims with the owner before publishing changes.
 
-Every architecture document should include:
+Recommended targets, not measured current scores: Lighthouse 95+, LCP below 2.5 s, CLS below 0.1, INP below 200 ms, WCAG 2.2 AA. See [performance policy](docs/23-performance-budget.md).
 
-- Requirements
-- Constraints
-- Architecture goals
-- Diagrams
-- Tradeoffs
-- Scaling strategy
-- Security
-- Future improvements
-- Lessons learned
+## Document update rules
 
-## Status
-
-Version `0.1` is ready for static deployment after the quality gates pass. The site is designed to evolve as a living engineering handbook.
+- Keep the current fact register in [status-and-evidence](docs/status-and-evidence.md) and near-term plan in [root next](../next.md).
+- Design docs explain *why/how*, not fictional deployments. ADRs record alternatives and consequences.
+- Replace obsolete statements rather than creating parallel conflicting standards.
+- Changes to runtime behavior need focused tests; docs-only changes need path/Markdown consistency review and accurate NOT RUN reporting.
