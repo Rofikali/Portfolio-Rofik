@@ -1,26 +1,39 @@
 # Portfolio-Rofik — Live NOW / NEXT / LATER
 
-**Reconciled 2026-11-17 — TEST-002 [PR #6 open](https://github.com/Rofikali/Portfolio-Rofik/pull/6), final-head checks pending on this board-only update.** GitHub main, PR state and exact-head checks supersede any snapshot here. No unattended background runner is implied.
+**Managed status:** edit `docs/engineering-state.json`, then run `node scripts/docs-sync.mjs --write`. No automatic merge or deployment authority.
 
-**Current verified main:** `f2d54641be2de66ae0be720ecf2b3aa912408fd0`. [DOC-001 #1](https://github.com/Rofikali/Portfolio-Rofik/pull/1), [SEC-001 #2](https://github.com/Rofikali/Portfolio-Rofik/pull/2), [CICD-001 #3](https://github.com/Rofikali/Portfolio-Rofik/pull/3), [DOC-002 #4](https://github.com/Rofikali/Portfolio-Rofik/pull/4), [TEST-001 #5](https://github.com/Rofikali/Portfolio-Rofik/pull/5) **MERGED**. [Main CI PASS](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44069632333). [Pages deployment PASS](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44069632342). This does not prove all browser routes or a clean security audit. Do not redo the merged milestones.
+<!-- docs-sync:begin -->
+**Verified workflow snapshot (2026-11-17):** main `e76829c25223` · [CI](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44075217503) · [Pages](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44075217337). Workflow completion verified; no full accessibility/security/production-site certificate.
 
-## NOW / NEXT / LATER
+Generated status from [docs/engineering-state.json](docs/engineering-state.json). **Not a live API or scheduled agent.** Always check actual PR/CI/main before proceeding.
 
-| Lane | Milestone and status | Scope / acceptance |
-| --- | --- | --- |
-| **NOW P1** | **TEST-002 — PR_OPEN / CI_PENDING ([PR #6](https://github.com/Rofikali/Portfolio-Rofik/pull/6))** | 3 real Chromium browser journeys PASS in [candidate workflow](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44070503634) at `677ef4c2`; [standard CI PASS](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44070503643). Final PR head will require its own checks after board update. First preview attempt failed because static generation has no Nuxt server bundle; fixed with local-only static file server. No live-site/Lighthouse/axe claims. [Test strategy](portfolio/docs/15-testing-strategy.md). |
-| **BLOCKED P0** | **SEC-002 — OPEN HIGH RISK** | 1 high transitive `zod@3.25.76` and 1 moderate `minimatch@10.2.6` from latest isolated audit after SEC-001. Safe fix needs upstream compatibility or a bounded experimental PR. Do not force overrides or suppress audit. |
-| **OWNER SETTINGS** | **BRANCH-001 — NOT IMPLEMENTED** | Main remained unprotected at API check. Owner to configure PR/required CI and Pages environment restrictions. |
-| **NEXT P1** | **TEST-003 — PLANNED** | Add accessible keyboard/contrast and production-link smoke only after the core browser suite proves stable and useful. |
-| **NEXT P1** | **SEARCH-001 — PLANNED** | Search published docs, projects and case studies with clear URL/empty/unsafe input tests. |
-| **NEXT P1** | **PERF-A11Y-001 — PLANNED** | Reconcile Tailwind/PostCSS nesting warning, measure project images, mobile themes/contrast and Lighthouse. |
-| **NEXT P1** | **CONTENT-001 — PLANNED** | Owner-verify resume, proof/status statements and private data before editing public claims. |
-| **LATER P2** | **DOC-003 — PLANNED** | Reconcile duplicate content collections, sitemap and public generated-route correctness with source tests. |
-| **OPTIONAL** | **WASM-DEMO-01 — DEFERRED** | [Proposed ADR](portfolio/adr/0005-optional-rust-wasm-demo.md) for benchmarked lazy-loaded Rust/WASM browser demo; no runtime change authorized. |
-| **LATER** | **GROWTH-001 — OWNER DECISION** | Domain/analytics only with measured demand, privacy review and explicit cost approval. |
+## NOW / NEXT / BLOCKED / LATER
+| Milestone | Work | State | Next action / limitation | PR |
+| --- | --- | --- | --- | --- |
+| DOCSYNC-001 | Automated documentation synchronization | **IN_PROGRESS** | Generate milestone status across docs; PR drift gate and reviewed post-merge reconciliation. | [PR #7](https://github.com/Rofikali/Portfolio-Rofik/pull/7) |
+| SEARCH-001 | Unified published content search | **READY** | Projects, cases and published docs with path/empty/Unicode tests. | — |
+| TEST-003 | Browser accessibility coverage | **PLANNED** | Keyboard, focus, contrast, generated links and measured browser checks. | — |
+| PERF-A11Y-001 | CSS and performance | **PLANNED** | Tailwind/PostCSS warning, mobile contrast, image size and Lighthouse. | — |
+| SEC-002 | Transitive dependency advisories | **BLOCKED** | 1 high Zod and 1 moderate minimatch advisory; safe compatible remediation unverified. | — |
+| BRANCH-001 | Main branch ruleset | **BLOCKED** | Owner-controlled setting: main currently unprotected. | — |
+| DOC-003 | Content taxonomy and sitemap | **PLANNED** | Reconcile duplicated content globs and static sitemap evidence. | — |
+| WASM-DEMO-01 | Optional Rust/WASM demo | **DEFERRED** | Proposed only; benchmark and separate owner decision before code. | — |
 
-## Continuation, safety and business authority
+## GitHub-verified merges (MERGED does not equal RELEASED)
+| Milestone | Work | State | Verified scope | PR |
+| --- | --- | --- | --- | --- |
+| DOC-001 | Engineering playbook | **MERGED** | HLD/LLD, seven-level engineering and evidence governance. | [PR #1](https://github.com/Rofikali/Portfolio-Rofik/pull/1) |
+| SEC-001 | Dependency refresh | **MERGED** | Nuxt dependency updates; two advisories remain. | [PR #2](https://github.com/Rofikali/Portfolio-Rofik/pull/2) |
+| CICD-001 | Main-only Pages deployment | **MERGED** | Deploy only from main and minimize workflow token permissions. | [PR #3](https://github.com/Rofikali/Portfolio-Rofik/pull/3) |
+| DOC-002 | Governance and architecture decisions | **MERGED** | Security disclosure, ADRs, release and CA/MBA reviews. | [PR #4](https://github.com/Rofikali/Portfolio-Rofik/pull/4) |
+| TEST-001 | Publication and navigation tests | **MERGED** | Published-only documents and focused unit tests. | [PR #5](https://github.com/Rofikali/Portfolio-Rofik/pull/5) |
+| TEST-002 | Chromium browser smoke | **MERGED** | Three browser journeys and project heading hierarchy fixes. | [PR #6](https://github.com/Rofikali/Portfolio-Rofik/pull/6) |
 
-For each **go ahead**: check main SHA, merged/open PRs and checks; pick one eligible milestone; create scoped branch/PR; give exact SHA, PASS/FAIL/PENDING/NOT RUN, tests, risk/rollback; stop before merge/release/paid/secret/licensing/personal-data changes. `MERGED` requires a GitHub merge SHA, `RELEASED` requires an observed site, and a green CI build **does not** mean a clean audit.
+## Open risks — no automatic waiver
+- **HIGH SEC-002:** Zod high and minimatch moderate advisories unresolved. A passing build does not clear the audit.
+- **HIGH BRANCH-001:** GitHub main was unprotected at latest verified API check; source workflow guards are not rulesets.
+- **MODERATE PERF-A11Y-001:** Tailwind nesting warning and no complete Lighthouse/WCAG/public-CDN validation.
 
-[AGENTS](AGENTS.md) · [Skills](skills.md) · [Seven-level/CA/MBA governance](portfolio/docs/operating-governance.md) · [Security](SECURITY.md).
+## Go-ahead contract
+Reconcile PRs, checks and main. Register/update one milestone in the manifest and run `node scripts/docs-sync.mjs --write`; CI checks the generated sections. A trusted post-merge workflow may propose a **draft docs PR**, never merge or deploy. [AGENTS](AGENTS.md) · [Skills](skills.md) · [Runbook](docs/docs-sync-contract.md).
+<!-- docs-sync:end -->

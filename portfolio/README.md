@@ -24,7 +24,7 @@ Use Node 22 (`.nvmrc`); CI uses pnpm 10. The generated site is `.output/public`.
 - `src/infrastructure/`: Nuxt Content repositories, mappers, static profile/navigation/skills.
 - `src/presentation/`: Vue components, layout and composables.
 - `src/pages/`: Nuxt routes, including homepage, projects, case studies, architecture, blog, engineering, system design, tags, search and resume.
-- `tests/`: a minimal existing Vitest suite; browser/integration coverage is future work.
+- `tests/`: 16 Vitest tests were verified after TEST-002; the separately scoped Linux Chromium workflow ran 3 browser smoke journeys at PR #6. Broader a11y/Firefox/WebKit/production CDN checks remain future work.
 
 The adapter boundary is partially applied: some routes and the featured project use case query Nuxt Content directly. This is a documented design debt, not an implemented full hexagonal architecture.
 
@@ -44,3 +44,15 @@ Recommended targets, not measured current scores: Lighthouse 95+, LCP below 2.5 
 - Design docs explain *why/how*, not fictional deployments. ADRs record alternatives and consequences.
 - Replace obsolete statements rather than creating parallel conflicting standards.
 - Changes to runtime behavior need focused tests; docs-only changes need path/Markdown consistency review and accurate NOT RUN reporting.
+
+## Generated milestone state
+
+<!-- docs-sync:begin -->
+**Verified workflow snapshot (2026-11-17):** main `e76829c25223` · [CI](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44075217503) · [Pages](https://github.com/Rofikali/Portfolio-Rofik/actions/runs/44075217337). Workflow completion verified; no full accessibility/security/production-site certificate.
+
+**NOW:** DOCSYNC-001 — Automated documentation synchronization. **NEXT:** SEARCH-001, TEST-003, PERF-A11Y-001.
+
+**Last merged:** DOC-002 [PR #4](https://github.com/Rofikali/Portfolio-Rofik/pull/4); TEST-001 [PR #5](https://github.com/Rofikali/Portfolio-Rofik/pull/5); TEST-002 [PR #6](https://github.com/Rofikali/Portfolio-Rofik/pull/6). **Blocked:** SEC-002, BRANCH-001.
+
+Edit `../docs/engineering-state.json` and run `node ../scripts/docs-sync.mjs --write` from this directory. This is milestone bookkeeping, not evidence of code tests, production accessibility or a clean audit. [Runbook](../docs/docs-sync-contract.md).
+<!-- docs-sync:end -->

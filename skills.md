@@ -69,3 +69,17 @@
 - Check Markdown headings, relative link destinations, duplicate/contradictory rules, stale status and actual source paths.
 - No automatic need for a full build, Docker, Rust, C fuzz or load test. CI remains the authority for what its workflow executed.
 - Explain exactly which checks were not run.
+
+## Generated milestone state
+
+<!-- docs-sync:begin -->
+**Skill 13 — Deterministic milestone documentation synchronization**
+
+1. Fetch actual main/PRs/checks; record milestone ID, scope, state, PR and *GitHub-verified* merge SHA in `docs/engineering-state.json`.
+2. Run `node scripts/docs-sync.mjs --write` and `node scripts/docs-sync.mjs --check`; inspect diffs to `next.md`, `AGENTS.md`, `skills.md`, both READMEs and the evidence register.
+3. PR CI requires manifest updates for substantive source, tests, workflows and dependency changes. No generated section editing by hand.
+4. After merge, a main-only bot **proposes** a draft status PR when registered PR merge facts changed; human must review, verify checks and approve merge/deploy.
+5. HLD/LLD/ADRs, a11y, security remediation and CA/MBA/management claims still require independent evidence and relevant tests.
+
+**NOW:** DOCSYNC-001 — Automated documentation synchronization. **NEXT:** SEARCH-001, TEST-003, PERF-A11Y-001. [Runbook](docs/docs-sync-contract.md).
+<!-- docs-sync:end -->
